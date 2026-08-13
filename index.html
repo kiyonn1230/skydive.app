@@ -1728,6 +1728,10 @@ b.ok{color:#3F6B4F;} b.warn{color:#8A6B2F;} b.bad{color:#A83A2C;}
 .regprefs .chip:hover:not(.on){border-color:var(--ink2);color:var(--ink);}
 .regprefs .chip.on{background:var(--ink);border-color:var(--ink);color:var(--kinari);}
 
+.pmini{font-size:11px;line-height:1.8;color:var(--muted);margin-top:9px;}
+.pmini b{color:var(--ink2);font-weight:700;}
+.popt.skip{color:var(--shu);font-weight:700;}
+
 </style>
 </head>
 <body>
@@ -4395,9 +4399,13 @@ function pstepBodyHtml(k){
 
   if(k==='edu') return `
     <div class="pgroup">
-      <div class="plabel">出身高校 <span class="popt">任意</span></div>
-      <input class="minput" type="text" id="f-hs" placeholder="◯◯県立◯◯高等学校"
+      <div class="plabel">出身高校 <span class="popt skip">任意・空欄で構いません</span></div>
+      <input class="minput" type="text" id="f-hs" placeholder="入力しなくても進めます"
              value="${esc(p.hs||'')}" data-model="hs" autocomplete="off">
+      <div class="pmini">
+        書かなくても<b>選考にもマッチ度にも一切影響しません</b>。
+        CAが面談で話すきっかけとして使うだけの項目です。
+      </div>
     </div>
     <div class="pgroup">
       <div class="plabel">出身大学・専門学校 <span class="popt">任意</span></div>
@@ -4412,8 +4420,9 @@ function pstepBodyHtml(k){
       </select>
     </div>
     <div class="pnote">
-      学歴は<b>マッチ度の計算には使いません</b>。担当CAがあなたを理解するためと、
-      応募先の企業へ推薦するときに添える情報として使います。
+      学歴は<b>マッチ度の計算には使いません</b>。学校名でスコアが動く仕組みにすると、
+      それは学歴による選別そのものになるためです。<br>
+      担当CAがあなたを理解するためと、応募先の企業へ推薦するときに添える情報として使います。
     </div>`;
 
   if(k==='job'){
