@@ -1665,6 +1665,12 @@ b.ok{color:#3F6B4F;} b.warn{color:#8A6B2F;} b.bad{color:#A83A2C;}
 }
 .dt-main .myhero{border-radius:26px;margin-bottom:0;}
 
+.pnote{
+  margin-top:26px;font-size:11.5px;line-height:2;color:var(--muted);
+  border-left:2px solid var(--line);padding-left:14px;
+}
+.pnote b{color:var(--ink2);font-weight:700;}
+
 </style>
 </head>
 <body>
@@ -4149,7 +4155,7 @@ function prNgLiveHtml(text){
    「強み」はこのアプリの核なので、他のステップより大きな面積を割く。
 ============================================================================ */
 const PSTEPS = [
-  {k:'name',  t:'はじめまして。<br>お名前を教えてください', s:'担当のキャリアアドバイザーにだけ伝わります'},
+  {k:'name',  t:'はじめまして。<br>お名前を教えてください', s:'この時点では、担当のキャリアアドバイザーだけが見ます'},
   {k:'stage', t:'いまは<br>どんな状況ですか', s:'紹介する求人の種類が変わります'},
   {k:'trait', t:'あなたの強みを<br>選んでください', s:'最大4つまで。面接で話しやすいものを選ぶと、対策の精度が上がります'},
   {k:'val',   t:'仕事で大事に<br>したいことは', s:'最大3つまで。企業の社風との相性を見ます'},
@@ -4180,7 +4186,12 @@ function pstepBodyHtml(k){
   const p = state.profile;
   if(k==='name') return `
     <input class="binput" type="text" id="f-name" placeholder="山田 太郎"
-           value="${esc(p.name)}" data-model="name" autocomplete="off">`;
+           value="${esc(p.name)}" data-model="name" autocomplete="off">
+    <div class="pnote">
+      ここから先で入力する内容は、<b>まず担当のキャリアアドバイザーだけ</b>が見ます。<br>
+      企業に伝わるのは、あなたが企業を選んで<b>「応募する」を押して同意したときから</b>です。
+      同意した内容と日時は記録され、あとからいつでも取り消せます。
+    </div>`;
 
   if(k==='cond') return `
     <div class="pgroup">
