@@ -1671,6 +1671,63 @@ b.ok{color:#3F6B4F;} b.warn{color:#8A6B2F;} b.bad{color:#A83A2C;}
 }
 .pnote b{color:var(--ink2);font-weight:700;}
 
+/* ---------- v2.3 学歴・職種・勤務希望の入力 ---------- */
+.popt{font-size:10px;font-weight:600;color:var(--faint);letter-spacing:.04em;margin-left:7px;}
+.minput,.mselect{
+  width:100%;border:none;border-bottom:1.5px solid var(--line);background:transparent;
+  font-size:16px;font-weight:600;padding:11px 2px;color:var(--ink);letter-spacing:.02em;
+}
+.minput:focus,.mselect:focus{outline:none;border-color:var(--shu);}
+.minput::placeholder{color:var(--line);}
+.mselect{appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 13px) 20px, calc(100% - 8px) 20px;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:28px;}
+
+/* オン・オフ行 */
+.togrow{
+  width:100%;display:flex;align-items:center;gap:14px;text-align:left;
+  border:1.5px solid var(--line);border-radius:18px;background:transparent;
+  padding:15px 17px;margin-bottom:11px;transition:.15s;
+}
+.togrow:hover:not(.on){border-color:var(--ink2);}
+.togrow.on{border-color:var(--ink);background:var(--ink);}
+.togrow .tt{display:block;font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--ink);}
+.togrow .ts{display:block;font-size:11px;color:var(--muted);margin-top:3px;line-height:1.6;}
+.togrow.on .tt{color:var(--kinari);}
+.togrow.on .ts{color:rgba(245,241,232,.68);}
+.togrow .tsw{
+  width:44px;height:26px;border-radius:99px;background:var(--line);flex-shrink:0;
+  position:relative;transition:background .18s;
+}
+.togrow.on .tsw{background:var(--shu);}
+.togrow .tsw i{
+  position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;
+  transition:transform .18s cubic-bezier(.2,1.3,.4,1);
+}
+.togrow.on .tsw i{transform:translateX(18px);}
+
+/* 地方 → 県 のアコーディオン */
+.regbox{border:1.5px solid var(--line);border-radius:16px;margin-bottom:9px;overflow:hidden;}
+.regbox.open{border-color:var(--ink);}
+.reghead{
+  width:100%;display:flex;align-items:center;gap:10px;background:transparent;border:none;
+  padding:14px 16px;font-size:14px;font-weight:700;color:var(--ink);letter-spacing:.02em;text-align:left;
+}
+.reghead .rl{flex:1;}
+.reghead .rn{
+  background:var(--shu);color:#fff;font-size:10.5px;font-weight:800;
+  min-width:20px;height:20px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 6px;
+}
+.reghead .rc{font-size:17px;color:var(--muted);font-weight:600;width:16px;text-align:center;}
+.regprefs{display:flex;flex-wrap:wrap;gap:8px;padding:2px 16px 16px;}
+.regprefs .chip{
+  border-radius:999px;border:1.5px solid var(--line);background:transparent;
+  padding:9px 15px;font-size:13px;font-weight:600;color:var(--ink2);transition:.13s;
+}
+.regprefs .chip:hover:not(.on){border-color:var(--ink2);color:var(--ink);}
+.regprefs .chip.on{background:var(--ink);border-color:var(--ink);color:var(--kinari);}
+
 </style>
 </head>
 <body>
@@ -1745,6 +1802,61 @@ const LOCATIONS = [
   {k:'fukuoka',l:'福岡'},
   {k:'remote', l:'フルリモート希望'}
 ];
+
+/* ---------- v2.3 学歴・職種・勤務希望のマスタ ---------- */
+
+/* 勤務希望は「地方を選ぶ → その中の県を選ぶ」の2段で入力する。
+   都道府県を47個並べると、スマホでは選ぶ気が失せるため。 */
+const REGIONS = [
+  {k:'hokkaido', l:'北海道・東北', prefs:['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県']},
+  {k:'kanto',    l:'関東',        prefs:['茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県']},
+  {k:'chubu',    l:'中部',        prefs:['新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県']},
+  {k:'kansai',   l:'近畿',        prefs:['三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県']},
+  {k:'chugoku',  l:'中国',        prefs:['鳥取県','島根県','岡山県','広島県','山口県']},
+  {k:'shikoku',  l:'四国',        prefs:['徳島県','香川県','愛媛県','高知県']},
+  {k:'kyushu',   l:'九州・沖縄',  prefs:['福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県']}
+];
+/* 企業マスタの勤務地キーと都道府県名の対応。マッチ判定に使う */
+const LOC_PREF = {tokyo:'東京都', osaka:'大阪府', nagoya:'愛知県', fukuoka:'福岡県'};
+function prefOfCompany(co){ return LOC_PREF[co.loc] || ''; }
+
+const JOB_TYPES = [
+  {k:'sales',   l:'営業'},
+  {k:'plan',    l:'企画・マーケティング'},
+  {k:'eng',     l:'エンジニア'},
+  {k:'design',  l:'デザイナー'},
+  {k:'corp',    l:'管理・事務'},
+  {k:'consul',  l:'コンサルタント'},
+  {k:'support', l:'カスタマーサポート'},
+  {k:'prod',    l:'生産・製造・技術'},
+  {k:'logi',    l:'物流・購買'},
+  {k:'med',     l:'医療・介護専門職'},
+  {k:'edu',     l:'教育・研修'},
+  {k:'fin',     l:'金融専門職'}
+];
+/* 企業が募集している職種。希望職種のマッチ判定に使う */
+const COMPANY_JOBS = {
+  c01:['eng','plan','design'],   c02:['sales','corp','logi'],
+  c03:['eng','plan','sales'],    c04:['med','corp','support'],
+  c05:['prod','sales','corp'],   c06:['design','plan','eng'],
+  c07:['fin','sales','corp'],    c08:['prod','eng','logi'],
+  c09:['eng','support','plan'],  c10:['logi','sales','corp'],
+  c11:['edu','plan','sales'],    c12:['sales','plan','support'],
+  c13:['consul','plan','sales'], c14:['eng','prod','plan']
+};
+function jobsOf(co){ return COMPANY_JOBS[co.id] || []; }
+
+/* 卒業年度の選択肢。新卒から中途まで拾えるよう、前後の幅を取る */
+function gradYears(){
+  const y = new Date().getFullYear(), out = [];
+  for(let i = y + 3; i >= y - 25; i--) out.push(String(i));
+  return out;
+}
+const TRANSFER = [
+  {k:'ok', l:'転勤できる'},
+  {k:'no', l:'転勤は希望しない'}
+];
+
 const CAREER_STAGES = [
   {k:'newgrad', l:'新卒（学生）'},
   {k:'second',  l:'第二新卒（〜3年）'},
@@ -1929,7 +2041,21 @@ const SEED_CANDIDATES = [
    STATE
 ============================================================================ */
 function blankProfile(){
-  return {name:'', stage:'newgrad', traits:[], inds:[], vals:[], loc:'any', payMin:400, pr:''};
+  return {
+    name:'', stage:'newgrad', traits:[], inds:[], vals:[], loc:'any', payMin:400, pr:'',
+    /* --- v2.3 --- */
+    hs:'',            // 出身高校
+    univ:'',          // 出身大学・専門学校
+    gradYear:'',      // 卒業年度
+    jobs:[],          // 希望職種
+    work:{
+      nationwide:false,   // 全国どこでも可
+      prefs:[],           // 希望する都道府県
+      overseas:false,     // 海外勤務も希望する
+      remote:false,       // リモート中心を希望する
+      transfer:'ok'       // 転勤の可否
+    }
+  };
 }
 function blankState(){
   return {
@@ -1978,7 +2104,8 @@ function blankState(){
     /* --- v1.3 --- */
     seekerView:null,                // 'phone' | 'desktop'（null なら初回に画面幅から決める）
     consents:{},                    // companyId -> {at, ver, scope[]} 応募＝企業への情報提供の同意記録
-    pstep:0,                        // プロフィール入力のステップ位置
+    pstep:0,
+    openRegion:null,                // 勤務希望で開いている地方                        // プロフィール入力のステップ位置
     menu:false,                     // アプリバーの「⋯」メニュー
     whyId:null,                     // 「なぜ合うのか」シートで開いている企業
     consentId:null,                 // 同意モーダルで対象にしている企業
@@ -2013,6 +2140,17 @@ function load(){
    すべて「応募検討」に見える。当時の意味で応募が進んでいた企業（進捗や面談予約が
    入っている企業）は、同意済みとして引き継ぐ。 */
 function migrate(){
+  // v2.2以前のプロフィールには学歴・職種・勤務希望が無い。既定値を補う。
+  const p = state.profile;
+  if(p && !p.work){
+    p.hs = p.hs || ''; p.univ = p.univ || ''; p.gradYear = p.gradYear || '';
+    p.jobs = p.jobs || [];
+    p.work = {nationwide:false, prefs:[], overseas:false, remote:false, transfer:'ok'};
+    // 旧「希望勤務地」を新しい形式に移す
+    if(p.loc === 'remote')      p.work.remote = true;
+    else if(p.loc === 'any')    p.work.nationwide = true;
+    else if(LOC_PREF[p.loc])    p.work.prefs = [LOC_PREF[p.loc]];
+  }
   if(!state.liked || !state.liked.length) return;
   state.consents = state.consents || {};
   if(Object.keys(state.consents).length) return;      // v1.3以降のデータは触らない
@@ -2181,15 +2319,48 @@ function maskAll(texts, keep){
    本番ではここをサーバー側の推論APIに置き換える。
 ============================================================================ */
 const FACTORS = [
-  {k:'ind',   l:'業界適性',     w:0.26},
+  {k:'ind',   l:'業界・職種の適性', w:0.26},
   {k:'trait', l:'強みの一致',   w:0.26},
   {k:'val',   l:'価値観の一致', w:0.20},
   {k:'loc',   l:'勤務地・働き方', w:0.16},
   {k:'pay',   l:'年収レンジ',   w:0.12}
 ];
+/* 勤務地の適合度。
+   希望県との一致を軸に、リモート希望・海外勤務希望・転勤可否で加減する。
+   転勤を希望しない人に転勤ありの求人を高く出すと、応募後に必ず折り合わなくなるため、
+   ここははっきり下げる。 */
+function locScore(co, p){
+  const w = p.work || {};
+  const prefs = w.prefs || [];
+  let base;
+
+  if(w.remote && co.remote)                      base = 95;
+  else if(w.nationwide)                          base = 80;
+  else if(prefs.length && prefs.includes(prefOfCompany(co))) base = 95;
+  else if(prefs.length)                          base = co.remote ? 62 : 34;
+  else if(w.remote)                              base = co.remote ? 95 : 34;
+  else                                           base = 70;   // 海外のみ希望など
+
+  const culture = (co.culture||[]).join('');
+  if(w.overseas)                     base += /海外|駐在|グローバル/.test(culture) ? 8 : -4;
+  if((w.transfer||'ok')==='no' && /転勤/.test(culture)) base -= 26;   // 折り合わない組み合わせ
+
+  return clamp(Math.round(base), 20, 99);
+}
+
 function scoreCompany(co, p){
   const f = {};
-  f.ind = p.inds.includes(co.ind) ? 96 : (p.inds.length===0 ? 60 : 42);
+  /* 業界と職種の両方を見る。職種は業界と同じくらい効くため、半々で合成する。
+     因子の本数は5本のまま維持している（説明の枠組みを変えないため）。 */
+  const indHit  = p.inds.includes(co.ind);
+  const indBase = indHit ? 96 : (p.inds.length===0 ? 60 : 42);
+  const myJobs  = p.jobs || [];
+  const coJobs  = jobsOf(co);
+  const jobHit  = myJobs.filter(j=>coJobs.includes(j)).length;
+  const jobBase = myJobs.length===0 ? 60
+                : jobHit===0        ? 34
+                : clamp(66 + jobHit * 14, 66, 98);
+  f.ind = Math.round(indBase * 0.5 + jobBase * 0.5);
 
   const tHit = co.traits.filter(t => p.traits.includes(t)).length;
   f.trait = p.traits.length===0 ? 55 : clamp(38 + (tHit / Math.min(co.traits.length,3)) * 62, 30, 99);
@@ -2197,10 +2368,7 @@ function scoreCompany(co, p){
   const vHit = co.vals.filter(v => p.vals.includes(v)).length;
   f.val = p.vals.length===0 ? 55 : clamp(40 + (vHit / co.vals.length) * 60, 30, 99);
 
-  if(p.loc==='remote')      f.loc = co.remote ? 95 : 34;
-  else if(p.loc==='any')    f.loc = 74;
-  else if(p.loc===co.loc)   f.loc = 95;
-  else                      f.loc = co.remote ? 62 : 38;
+  f.loc = locScore(co, p);
 
   const mid = (co.pay[0]+co.pay[1])/2;
   if(co.pay[1] < p.payMin)        f.pay = 30;
@@ -2892,6 +3060,17 @@ function mypageHtml(){
   </div>`;
 }
 
+/* 勤務希望を1行で読める形にまとめる */
+function workLabel(p){
+  const w = (p && p.work) || {};
+  const out = [];
+  if(w.nationwide) out.push('全国どこでも');
+  else if((w.prefs||[]).length) out.push(w.prefs.join('・'));
+  if(w.remote)   out.push('リモート中心');
+  if(w.overseas) out.push('海外勤務も希望');
+  return out.length ? esc(out.join(' ／ ')) : '—';
+}
+
 function myProfileTab(p, t){
   const row = (k,v)=>`<div class="sr"><div class="sk">${esc(k)}</div><div class="sv">${v}</div></div>`;
   return `
@@ -2903,8 +3082,19 @@ function myProfileTab(p, t){
     ${row('強み', (p.traits||[]).map(k=>esc(label(TRAITS,k))).join('・')||'—')}
     ${row('重視すること', (p.vals||[]).map(k=>esc(label(VALUES,k))).join('・')||'—')}
     ${row('興味のある業界', (p.inds||[]).map(k=>esc(label(INDUSTRIES,k))).join('・')||'—')}
-    ${row('希望勤務地', esc(p.loc==='any'?'こだわらない':label(LOCATIONS,p.loc)))}
+    ${row('希望職種', (p.jobs||[]).map(k=>esc(label(JOB_TYPES,k))).join('・')||'—')}
+    ${row('希望勤務地', workLabel(p))}
+    ${row('転勤', esc(label(TRANSFER, (p.work&&p.work.transfer)||'ok')))}
     ${row('希望年収', p.payMin+'万円 〜')}
+  </div>
+  <div class="sec-head"><span class="bar"></span>学歴</div>
+  <div class="summary">
+    ${row('出身高校', esc(p.hs||'—'))}
+    ${row('出身大学・専門学校', esc(p.univ||'—'))}
+    ${row('卒業年度', p.gradYear ? esc(p.gradYear)+'年' : '—')}
+  </div>
+  <div class="note gray mt-s" style="font-size:10.5px">
+    学歴はマッチ度の計算には使っていません。担当CAの理解と、企業への推薦時に添える情報として保持しています。
   </div>
   ${p.pr ? `<div class="sec-head"><span class="bar"></span>自己PR</div><div class="desc">${esc(p.pr)}</div>` : ''}
   <button class="btn g block mt-m" data-a="edit-profile">登録内容を編集する</button>
@@ -4121,7 +4311,8 @@ const CHIP_GROUPS = {
   trait:{list:TRAITS,        multi:true,  get:()=>state.profile.traits, max:4},
   val:  {list:VALUES,        multi:true,  get:()=>state.profile.vals,   max:3},
   ind:  {list:INDUSTRIES,    multi:true,  get:()=>state.profile.inds,   max:0},
-  loc:  {list:LOCATIONS,     multi:false, get:()=>state.profile.loc,    max:0}
+  loc:  {list:LOCATIONS,     multi:false, get:()=>state.profile.loc,    max:0},
+  job:  {list:JOB_TYPES,     multi:true,  get:()=>state.profile.jobs,   max:0}
 };
 function chipGroupHtml(action){
   const g = CHIP_GROUPS[action];
@@ -4157,10 +4348,13 @@ function prNgLiveHtml(text){
 const PSTEPS = [
   {k:'name',  t:'はじめまして。<br>お名前を教えてください', s:'この時点では、担当のキャリアアドバイザーだけが見ます'},
   {k:'stage', t:'いまは<br>どんな状況ですか', s:'紹介する求人の種類が変わります'},
+  {k:'edu',   t:'学歴を<br>教えてください', s:'企業への推薦時に添える情報です。マッチ度の計算には使いません'},
   {k:'trait', t:'あなたの強みを<br>選んでください', s:'最大4つまで。面接で話しやすいものを選ぶと、対策の精度が上がります'},
   {k:'val',   t:'仕事で大事に<br>したいことは', s:'最大3つまで。企業の社風との相性を見ます'},
   {k:'ind',   t:'気になる業界は<br>ありますか', s:'いくつでも選べます。絞りすぎないほうが出会いは増えます'},
-  {k:'cond',  t:'働く場所と<br>希望の年収は', s:'あとから変えられます'},
+  {k:'job',   t:'どんな職種で<br>働きたいですか', s:'いくつでも選べます。業界と同じくらい、マッチ度に影響します'},
+  {k:'work',  t:'働く場所について<br>教えてください', s:'あとから変えられます'},
+  {k:'pay',   t:'希望の年収は<br>どのくらいですか', s:'下限を選んでください。目安なので、幅を持って構いません'},
   {k:'pr',    t:'最後に、ひとこと<br>自己PRをどうぞ', s:'書かなくても進めます'}
 ];
 function pstep(){ return clamp(state.pstep||0, 0, PSTEPS.length-1); }
@@ -4179,6 +4373,12 @@ function pstepReady(k){
   if(k==='trait') return p.traits.length>0;
   if(k==='val')   return p.vals.length>0;
   if(k==='ind')   return p.inds.length>0;
+  if(k==='job')   return (p.jobs||[]).length>0;
+  if(k==='work'){
+    const w = p.work || {};
+    // 「全国」「海外」「リモート」のいずれか、または県が1つ以上選ばれていれば先に進める
+    return !!(w.nationwide || w.overseas || w.remote || (w.prefs||[]).length);
+  }
   return true;
 }
 
@@ -4193,16 +4393,71 @@ function pstepBodyHtml(k){
       同意した内容と日時は記録され、あとからいつでも取り消せます。
     </div>`;
 
-  if(k==='cond') return `
+  if(k==='edu') return `
     <div class="pgroup">
-      <div class="plabel">働く場所</div>
-      <div class="chips big" id="grp-loc">${chipGroupHtml('loc')}</div>
+      <div class="plabel">出身高校 <span class="popt">任意</span></div>
+      <input class="minput" type="text" id="f-hs" placeholder="◯◯県立◯◯高等学校"
+             value="${esc(p.hs||'')}" data-model="hs" autocomplete="off">
     </div>
     <div class="pgroup">
-      <div class="plabel">希望年収（下限）</div>
-      <div class="payval" id="pay-val">${p.payMin}<span>万円 〜</span></div>
-      <input type="range" id="f-pay" min="300" max="900" step="10" value="${p.payMin}" data-range="pay">
+      <div class="plabel">出身大学・専門学校 <span class="popt">任意</span></div>
+      <input class="minput" type="text" id="f-univ" placeholder="◯◯大学 ◯◯学部"
+             value="${esc(p.univ||'')}" data-model="univ" autocomplete="off">
+    </div>
+    <div class="pgroup">
+      <div class="plabel">卒業年度（卒業見込みを含む）</div>
+      <select class="mselect" id="f-grad" data-model="gradYear">
+        <option value="">選択してください</option>
+        ${gradYears().map(y=>`<option value="${y}" ${p.gradYear===y?'selected':''}>${y}年</option>`).join('')}
+      </select>
+    </div>
+    <div class="pnote">
+      学歴は<b>マッチ度の計算には使いません</b>。担当CAがあなたを理解するためと、
+      応募先の企業へ推薦するときに添える情報として使います。
     </div>`;
+
+  if(k==='job'){
+    return `<div class="pcount" id="cnt-job">選んだ職種 ${(p.jobs||[]).length}件</div>
+      <div class="chips big" id="grp-job">${chipGroupHtml('job')}</div>`;
+  }
+
+  if(k==='work'){
+    const w = p.work || {};
+    return `
+      ${toggleRowHtml('wk-nation', '全国どこでも可', '勤務地を限定しません', w.nationwide)}
+      ${w.nationwide ? '' : `
+        <div class="pgroup">
+          <div class="plabel">働きたい地域を選ぶ <span class="popt">地方をタップすると県が出ます</span></div>
+          ${REGIONS.map(r=>{
+            const open = state.openRegion===r.k;
+            const n = r.prefs.filter(x=>(w.prefs||[]).includes(x)).length;
+            return `
+            <div class="regbox ${open?'open':''}">
+              <button class="reghead" data-a="region" data-v="${r.k}">
+                <span class="rl">${esc(r.l)}</span>
+                ${n?`<span class="rn">${n}</span>`:''}
+                <span class="rc">${open?'−':'＋'}</span>
+              </button>
+              ${open ? `<div class="regprefs">${r.prefs.map(x=>`
+                <button class="chip ${(w.prefs||[]).includes(x)?'on':''}" data-a="pref" data-v="${esc(x)}">${esc(x)}</button>`).join('')}
+              </div>` : ''}
+            </div>`;
+          }).join('')}
+        </div>`}
+      ${toggleRowHtml('wk-os', '海外勤務も希望する', '海外拠点・駐在のある求人を優先します', w.overseas)}
+      ${toggleRowHtml('wk-rm', 'リモート中心を希望する', 'フルリモート可の求人を優先します', w.remote)}
+      <div class="pgroup">
+        <div class="plabel">転勤について</div>
+        <div class="chips big">
+          ${TRANSFER.map(t=>`<button class="chip ${((w.transfer)||'ok')===t.k?'on':''}"
+            data-a="transfer" data-v="${t.k}">${esc(t.l)}</button>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  if(k==='pay') return `
+    <div class="payval" id="pay-val">${p.payMin}<span>万円 〜</span></div>
+    <input type="range" id="f-pay" min="300" max="900" step="10" value="${p.payMin}" data-range="pay">`;
 
   if(k==='pr') return `
     <div class="ng-guard"><span class="gi">!</span><span>${esc(NG_NOTICE)}</span></div>
@@ -4213,6 +4468,18 @@ function pstepBodyHtml(k){
   const cnt = CHIP_GROUPS[k] && CHIP_GROUPS[k].max
     ? `<div class="pcount" id="cnt-${k}">最大${CHIP_GROUPS[k].max}つまで（${CHIP_GROUPS[k].get().length}/${CHIP_GROUPS[k].max}）</div>` : '';
   return `${cnt}<div class="chips big ${k==='trait'?'grid2':''}" id="grp-${k}">${chipGroupHtml(k)}</div>`;
+}
+
+/* オン・オフの1行。チェックボックスより押す面積が取れる */
+function toggleRowHtml(id, title, sub, on){
+  return `
+  <button class="togrow ${on?'on':''}" data-a="toggle" data-v="${id}">
+    <span class="grow">
+      <span class="tt">${esc(title)}</span>
+      <span class="ts">${esc(sub)}</span>
+    </span>
+    <span class="tsw"><i></i></span>
+  </button>`;
 }
 
 function profileHtml(){
@@ -5606,7 +5873,12 @@ function loadDemoData(){
     vals:['growth','auto','expert'],
     inds:['it','startup','consulting'],
     loc:'tokyo', payMin:550,
-    pr:'SIerで3年間、業務システムの要件定義から運用まで担当しました。担当顧客の月次処理を自動化し、作業時間を月40時間削減した経験があります。'
+    pr:'SIerで3年間、業務システムの要件定義から運用まで担当しました。担当顧客の月次処理を自動化し、作業時間を月40時間削減した経験があります。',
+    hs:'東京都立◯◯高等学校',
+    univ:'◯◯大学 情報理工学部',
+    gradYear:String(new Date().getFullYear() - 3),
+    jobs:['eng','plan'],
+    work:{nationwide:false, prefs:['東京都','神奈川県'], overseas:false, remote:true, transfer:'ok'}
   };
   state.scored = COMPANIES.map(c=>{
     const r = scoreCompany(c, state.profile);
@@ -5728,6 +6000,26 @@ function bindApp(){
       case 'trait':       if(!toggleIn(state.profile.traits,v,4)) toast('選べるのは4つまでです'); refreshChips('trait'); break;
       case 'val':         if(!toggleIn(state.profile.vals,v,3)) toast('選べるのは3つまでです'); refreshChips('val'); break;
       case 'ind':         toggleIn(state.profile.inds,v,0); refreshChips('ind'); break;
+      case 'job':         toggleIn(state.profile.jobs,v,0); refreshChips('job'); break;
+      case 'region':      state.openRegion = (state.openRegion===v ? null : v); render(); break;
+      case 'pref': {
+        const w = state.profile.work;
+        toggleIn(w.prefs, v, 0);
+        render();
+        break;
+      }
+      case 'transfer':    state.profile.work.transfer = v; render(); break;
+      case 'toggle': {
+        const w = state.profile.work;
+        if(v==='wk-nation'){
+          w.nationwide = !w.nationwide;
+          if(w.nationwide){ w.prefs = []; state.openRegion = null; }  // 全国を選んだら県指定は消す
+        }
+        if(v==='wk-os') w.overseas = !w.overseas;
+        if(v==='wk-rm') w.remote   = !w.remote;
+        render();
+        break;
+      }
       case 'loc':         state.profile.loc=v; refreshChips('loc'); break;
       case 'pstep-next':  pstepNext(); break;
       case 'pstep-prev':  state.pstep=Math.max(0,pstep()-1); state.formErr=''; state.formNg=[]; render(); scrollTop(); break;
@@ -5793,6 +6085,11 @@ function bindApp(){
     const t = e.target;
     if(t.dataset.model){
       const k = t.dataset.model;
+      if(k==='hs' || k==='univ' || k==='gradYear'){
+        state.profile[k] = t.value;
+        save();
+        return;
+      }
       if(k==='name' || k==='pr'){
         state.profile[k] = t.value;
         // ステップ形式では入力の有無で「次へ」の活性が変わる。
@@ -5838,6 +6135,7 @@ function bindApp(){
   });
   document.addEventListener('change', e=>{
     const t = e.target;
+    if(t.dataset.model==='gradYear'){ state.profile.gradYear = t.value; save(); }
     if(t.dataset.logform){ state.logForm = state.logForm||{}; state.logForm[t.dataset.logform] = t.value; }
     if(t.dataset.logformCheck){
       state.logForm = state.logForm||{};
