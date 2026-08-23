@@ -528,6 +528,7 @@ input[type=range]{flex:1;accent-color:var(--brand);height:4px;}
 ============================================================ */
 .ca-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px;}
 .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:11px;margin-bottom:18px;}
+.kpis.k7{grid-template-columns:repeat(7,1fr);}
 .kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 13px;box-shadow:var(--sh1);position:relative;overflow:hidden;}
 .kpi .n{font-size:23px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.15;}
 .kpi .l{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:800;}
@@ -649,9 +650,9 @@ table.tbl tr.tr-row.live:hover{background:#fffbe8;}
 .tl .tlt{font-size:12.5px;font-weight:800;}
 .tl .tld{font-size:10.5px;color:var(--muted);margin-top:2px;}
 
-@media(max-width:1080px){.kpis{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:1080px){.kpis,.kpis.k7{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:620px){
-  .kpis{grid-template-columns:repeat(2,1fr);}
+  .kpis,.kpis.k7{grid-template-columns:repeat(2,1fr);}
   .roi-out{grid-template-columns:1fr;}
   .appbar{padding:10px 12px;}
   .brand .btag{display:none;}
@@ -1732,6 +1733,79 @@ b.ok{color:#3F6B4F;} b.warn{color:#8A6B2F;} b.bad{color:#A83A2C;}
 .pmini b{color:var(--ink2);font-weight:700;}
 .popt.skip{color:var(--shu);font-weight:700;}
 
+/* ============================================================
+   v2.4 — CA送客 / 注力リスト / RAコンソール
+============================================================ */
+/* 送信済みリスト */
+.sent-list{border:1px solid var(--ok-line);background:var(--ok-bg);}
+.sent-row{display:flex;gap:11px;align-items:center;padding:11px 13px;border-bottom:1px solid rgba(0,0,0,.05);}
+.sent-row:last-child{border-bottom:none;}
+.sent-row .nm{font-size:12.5px;font-weight:700;}
+.sent-row .sb{font-size:10.5px;color:var(--muted);margin-top:2px;}
+
+/* 送る企業を選ぶリスト */
+.pick-list{border:1px solid var(--line);max-height:420px;overflow-y:auto;}
+.pick-row{
+  width:100%;display:flex;gap:11px;align-items:center;text-align:left;
+  padding:11px 13px;border:none;border-bottom:1px solid var(--line2);background:transparent;transition:.13s;
+}
+.pick-row:last-child{border-bottom:none;}
+.pick-row:hover:not(:disabled):not(.on){background:var(--surface2);}
+.pick-row.on{background:var(--sumi);}
+.pick-row.on .nm,.pick-row.on .sc{color:var(--kinari);}
+.pick-row.on .sb{color:rgba(245,241,232,.7);}
+.pick-row.done{opacity:.42;}
+.pick-row .pk{
+  width:20px;height:20px;border:1.5px solid var(--line);flex-shrink:0;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:transparent;
+}
+.pick-row.on .pk{background:var(--shu);border-color:var(--shu);color:#fff;}
+.pick-row.done .pk{background:var(--ok);border-color:var(--ok);color:#fff;}
+.pick-row .nm{display:block;font-size:12.5px;font-weight:700;}
+.pick-row .sb{display:block;font-size:10.5px;color:var(--muted);margin-top:2px;}
+.pick-row .sc{font-family:var(--mincho);font-size:15px;font-weight:700;flex-shrink:0;}
+.send-bar{position:sticky;bottom:0;background:var(--surface);padding:14px 0 4px;text-align:center;}
+
+/* 注力リスト（CA側） */
+.frow{display:flex;gap:11px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--line2);}
+.fr-rank{
+  width:24px;height:24px;flex-shrink:0;border:1px solid var(--line);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mincho);font-size:12px;
+}
+.fr-rank.top{border-color:var(--shu);color:var(--shu);}
+.fr-rank.ok{border-color:var(--ok);color:var(--ok);}
+.frow .nm{font-size:12.5px;font-weight:700;}
+.frow .sb{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:4px;}
+.fr-sc{font-family:var(--mincho);font-size:16px;font-weight:700;color:var(--sumi);flex-shrink:0;}
+
+/* RA：共有行 */
+.share-row{display:flex;gap:13px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line2);}
+.share-row:last-child{border-bottom:none;}
+.share-row .nm{font-size:13.5px;font-weight:700;}
+.share-row .sb{font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* RA：CA別の送客 */
+.cabar{display:flex;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line2);}
+.cabar:last-child{border-bottom:none;}
+.cb-name{display:flex;gap:10px;align-items:center;width:150px;flex-shrink:0;}
+.cb-name .nm{font-size:12.5px;font-weight:700;}
+.cb-name .sb{font-size:10px;color:var(--muted);margin-top:2px;}
+.cb-bar{flex:1;height:8px;background:var(--line2);min-width:60px;}
+.cb-bar i{display:block;height:100%;background:var(--shu);}
+.cb-num{width:52px;text-align:right;flex-shrink:0;}
+.cb-num b{display:block;font-family:var(--mincho);font-size:15px;color:var(--sumi);}
+.cb-num b.ok{color:var(--ok);} .cb-num b.warn{color:var(--warn);} .cb-num b.bad{color:var(--danger);}
+.cb-num span{display:block;font-size:9.5px;color:var(--faint);margin-top:1px;}
+tr.warn-row td{background:var(--warn-bg);}
+
+/* カードの「担当CAから」 */
+.cfrom{
+  display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  background:var(--shu);color:#fff;padding:4px 11px;margin-bottom:10px;
+}
+.tab-badge.ok{background:var(--ok);}
+.pill.super{background:#FCF3D9;border:1px solid #E8C36A;color:#8A6A16;}
+
 </style>
 </head>
 <body>
@@ -1756,7 +1830,7 @@ b.ok{color:#3F6B4F;} b.warn{color:#8A6B2F;} b.bad{color:#A83A2C;}
    （このリポジトリには含まない）。
 ============================================================================ */
 
-const APP_VERSION = '2.1';
+const APP_VERSION = '2.4';
 const STORAGE_KEY = 'swipeca_demo_v2';
 
 /* ---------- マスタ ---------- */
@@ -2109,7 +2183,12 @@ function blankState(){
     seekerView:null,                // 'phone' | 'desktop'（null なら初回に画面幅から決める）
     consents:{},                    // companyId -> {at, ver, scope[]} 応募＝企業への情報提供の同意記録
     pstep:0,
-    openRegion:null,                // 勤務希望で開いている地方                        // プロフィール入力のステップ位置
+    openRegion:null,                // 勤務希望で開いている地方
+    /* --- v2.4 --- */
+    caSent:{},                      // candId -> [companyId]  CAが求職者に送った企業
+    caPick:[],                      // 「企業を送る」タブで選択中の企業
+    raShared:{},                    // companyId -> [caId]     RAがCAに共有した求人
+    raTab:'fill',                   // RAコンソールのタブ                        // プロフィール入力のステップ位置
     menu:false,                     // アプリバーの「⋯」メニュー
     whyId:null,                     // 「なぜ合うのか」シートで開いている企業
     consentId:null,                 // 同意モーダルで対象にしている企業
@@ -3472,6 +3551,7 @@ function buildApplications(){
         // 企業ポータルでの「同意前はマスクする」挙動を実際に確認できるようにするため。
         stage: i===0 ? topStage : Math.max(0, topStage - 1 - Math.floor(r()*3)),
         source: r() < 0.64 ? 'ai' : 'ca',      // 推薦経路（効果測定の要）
+        superLike: i===0 && r() < 0.42,        // 第1志望にだけ、たまに付く
         daysOpen: 3 + Math.floor(r()*40),
         fee: feeOf(co),
         clientRating: null                      // 企業側が入力する評価
@@ -3481,6 +3561,56 @@ function buildApplications(){
   state.apps = apps;
   return apps;
 }
+/* ---------------------------------------------------------------------------
+   v2.4 — CAが求職者に企業を送る
+   このアプリの前提は「CAの業務圧縮」。AIが候補を出すところまでは自動でも、
+   最終的に誰に何を薦めるかはCAが決める。その判断を1画面で終わらせる。
+   送った企業は求職者側のデッキ先頭に「担当CAから」として出る。
+--------------------------------------------------------------------------- */
+function caSentTo(candId){ return (state.caSent||{})[candId] || []; }
+function caSentCount(candId){ return caSentTo(candId).length; }
+
+/* 求職者ごとの企業スコア。操作中の求職者は実際の計算結果を、
+   シード候補者は決定論的な擬似スコアを返す（リロードしても変わらない）。 */
+function scoresForCandidate(cand){
+  if(cand.live && state.scored.length) return state.scored.slice();
+  const r = rng(hash('sc:'+cand.id));
+  return COMPANIES.map(co=>{
+    const base = cand.score || 70;
+    const sc = clamp(Math.round(base - 18 + r()*34), 38, 98);
+    return Object.assign({}, co, {score:sc, factors:null});
+  }).sort((a,b)=>b.score-a.score);
+}
+
+/* 送信。DMにも1本流して、求職者が気づける状態にする */
+function caSendCompanies(candId){
+  const picks = (state.caPick||[]).slice();
+  if(!picks.length){ toast('送る企業を選んでください'); return; }
+  state.caSent = state.caSent || {};
+  const cur = state.caSent[candId] || [];
+  const add = picks.filter(id => !cur.includes(id));
+  state.caSent[candId] = cur.concat(add);
+
+  const names = add.map(id => (coOf(id)||{}).name).filter(Boolean);
+  if(names.length){
+    dmThreadFor(candId).push({
+      from:'ca', t:nowHm(),
+      text:'ご希望に近い求人を'+names.length+'社お送りしました。'+names.join('／')+'。気になるものがあれば「気になる」に入れてください。'
+    });
+    if(candId==='live') logActivity('担当CAから'+names.length+'社の求人が届いた');
+  }
+  logEvent('recommend', {actorRole:'ca', candId, companies:add});
+  if(candId==='live') refreshScored();
+  state.caPick = [];
+  render();
+  toast(add.length ? add.length+'社を送りました' : 'すでに送信済みです');
+}
+function caUnsend(candId, coId){
+  state.caSent[candId] = caSentTo(candId).filter(x=>x!==coId);
+  render();
+  toast('送信を取り消しました');
+}
+
 /* デモで操作中の求職者は state から動的に案件化する */
 function liveApplications(){
   const live = liveCandidate();
@@ -3491,7 +3621,10 @@ function liveApplications(){
     return {
       id:'live#'+cid, candId:'live', companyId:cid, caId:'ca1', raId:raOf(cid),
       stage: stageOf(cid),
-      source: (state.superLiked||[]).includes(cid) ? 'ca' : 'ai',
+      // 推薦経路とスーパーライクは別の概念。
+      // source は「誰が見つけてきたか」、superLike は「本人がどれだけ本気か」。
+      source: caSentTo('live').includes(cid) ? 'ca' : 'ai',
+      superLike: (state.superLiked||[]).includes(cid),
       daysOpen: 0, fee: feeOf(co), clientRating: state.clientRatings ? state.clientRatings['live#'+cid] : null,
       live:true
     };
@@ -3831,21 +3964,60 @@ function execHtml(){
 /* ---------------------------------------------------------------------------
    RA（企業担当）コンソール
 --------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------
+   v2.4 — RAコンソール
+   RA（リクルーティングアドバイザー）は企業を担当し、CAとつなぐ役割。
+   求職者とは直接会わないため、RAの仕事は「求人を、送ってくれるCAに届けること」と
+   「企業の反応をCAに返すこと」の2つに集約される。
+   画面もその2点が中心になるよう作り直した。
+--------------------------------------------------------------------------- */
+function raShare(companyId){
+  state.raShared = state.raShared || {};
+  const co = coOf(companyId);
+  state.raShared[companyId] = CA_LIST.map(c=>c.id);   // 全CAに共有
+  logEvent('share', {actorRole:'ra', companyId});
+  render();
+  toast((co?co.name:'')+' の求人を全CAに共有しました');
+}
+function raSharedTo(companyId){ return (state.raShared||{})[companyId] || []; }
+function raSharedList(){ return Object.keys(state.raShared||{}); }
+
+/* このCAが、この企業に何人送っているか */
+function sentByCa(companyId){
+  return CA_LIST.map(ca=>{
+    const n = allApplications().filter(a=>a.companyId===companyId && a.caId===ca.id).length;
+    const won = allApplications().filter(a=>a.companyId===companyId && a.caId===ca.id && a.stage>=4).length;
+    return {ca, n, won};
+  }).sort((a,b)=>b.n-a.n);
+}
+/* 企業が入力した評価の集計 */
+function ratingStats(companyId){
+  const apps = appsForCompany(companyId);
+  const rt = state.clientRatings || {};
+  const c = {pass:0, hold:0, drop:0, none:0};
+  apps.forEach(a=>{
+    const v = rt[a.id];
+    if(v===3) c.pass++; else if(v===2) c.hold++; else if(v===1) c.drop++; else c.none++;
+  });
+  return c;
+}
+
 function raHtml(){
   const me = state.raSel || RA_LIST[0].id;
-  const raMeta = RA_LIST.find(x=>x.id===me);
   const mine = COMPANIES.filter(c=>raOf(c.id)===me);
   const stats = mine.map(c=>companyStats(c.id));
   const totalOpen = stats.reduce((s,x)=>s+x.open,0);
-  const totalWon = stats.reduce((s,x)=>s+x.won,0);
-  const totalApp = stats.reduce((s,x)=>s+x.applied,0);
-  const empty = stats.filter(x=>x.applied===0);
+  const totalWon  = stats.reduce((s,x)=>s+x.won,0);
+  const totalApp  = stats.reduce((s,x)=>s+x.applied,0);
+  const empty     = stats.filter(x=>x.applied===0);
+  const unshared  = stats.filter(x=>x.applied < 2 && !raSharedTo(x.co.id).length);
+  const tab = state.raTab || 'fill';
 
   return `
   <div class="ca-head">
     <div>
       <h1 class="title-xl">RAコンソール</h1>
-      <p class="sub mt-s">担当企業の求人枠の充足状況と、選考の進み方を把握します。</p>
+      <p class="sub mt-s">担当企業の求人をCAに届け、企業の反応をCAに返すのがRAの仕事です。</p>
     </div>
     <div class="toolbar">
       ${RA_LIST.map(r=>`<button class="ftab ${r.id===me?'on':''}" data-a="ra-sel" data-v="${r.id}">${esc(r.name)}</button>`).join('')}
@@ -3861,30 +4033,34 @@ function raHtml(){
       <div class="n">${totalApp}</div><div class="l">応募中の案件</div></div>
     <div class="kpi"><div class="strip" style="background:var(--ok)"></div>
       <div class="n">${totalWon}</div><div class="l">決定</div></div>
-    <div class="kpi"><div class="strip" style="background:var(--ok)"></div>
-      <div class="n">${Math.round(totalWon/Math.max(totalOpen,1)*100)}<span style="font-size:12px">%</span></div><div class="l">充足率</div></div>
+    <div class="kpi ${unshared.length?'alert':''}"><div class="strip" style="background:var(--shu)"></div>
+      <div class="n" style="color:${unshared.length?'var(--shu)':'var(--ink)'}">${unshared.length}</div>
+      <div class="l">CA未共有</div>
+      <div class="d" style="color:var(--shu)">${unshared.length?'共有が必要':'—'}</div></div>
     <div class="kpi ${empty.length?'alert':''}"><div class="strip" style="background:var(--warn)"></div>
       <div class="n" style="color:${empty.length?'var(--warn)':'var(--ink)'}">${empty.length}</div>
-      <div class="l">応募ゼロの企業</div>
-      <div class="d" style="color:var(--warn)">${empty.length?'CAへの共有が必要':'—'}</div></div>
+      <div class="l">応募ゼロ</div></div>
   </div>
 
-  ${empty.length ? `
-  <div class="panel mb-m">
-    <div class="ph"><div class="title-m">要対応</div><span class="pill warn">${empty.length}件</span></div>
-    <div>
-      ${empty.map(x=>`
-        <div class="todo">
-          <div class="ti" style="background:var(--warn-bg);color:var(--warn)">!</div>
-          <div class="grow">
-            <div class="tt">${esc(x.co.name)}　<span style="font-weight:700;color:var(--muted)">応募が0件です</span></div>
-            <div class="td">求人枠 ${x.open}件。求人票の条件見直し、またはCAへの共有を推奨</div>
-          </div>
-          <button class="btn sm g" data-a="ra-open" data-v="${x.co.id}">開く</button>
-        </div>`).join('')}
-    </div>
-  </div>` : ''}
+  <div class="tabs mb-m">
+    <button class="${tab==='fill'?'on':''}" data-a="ra-tab" data-v="fill">充足状況</button>
+    <button class="${tab==='share'?'on':''}" data-a="ra-tab" data-v="share">CAへの共有${unshared.length?`<span class="tab-badge">${unshared.length}</span>`:''}</button>
+    <button class="${tab==='ca'?'on':''}" data-a="ra-tab" data-v="ca">CA別の送客</button>
+    <button class="${tab==='fb'?'on':''}" data-a="ra-tab" data-v="fb">企業の反応</button>
+  </div>
 
+  ${tab==='fill' ? raFillHtml(stats) : tab==='share' ? raShareHtml(stats)
+    : tab==='ca' ? raCaHtml(mine) : raFbHtml(mine)}
+
+  <div class="note info mt-m">
+    RAは<b>企業側</b>、CAは<b>求職者側</b>を担当します。両者は同じ案件（application）を
+    別の視点から見ているため、片方の更新がもう片方に即座に反映されます。
+  </div>`;
+}
+
+/* 充足状況 */
+function raFillHtml(stats){
+  return `
   <div class="panel">
     <div class="ph"><div class="title-m">担当企業の充足状況</div>
       <div class="sub" style="font-size:11.5px">行をクリックすると応募中の候補者が見られます</div></div>
@@ -3910,10 +4086,112 @@ function raHtml(){
         </tbody>
       </table>
     </div>
+  </div>`;
+}
+
+/* CAへの共有 — RAの本業 */
+function raShareHtml(stats){
+  const need = stats.filter(x=>x.applied < 2).sort((a,b)=>a.applied-b.applied);
+  return `
+  <div class="note warn mb-m">
+    <b>応募が集まっていない求人は、CAに届いていない可能性があります。</b>
+    RAの仕事は求人票を直すことより先に、<b>まずCAに知らせること</b>です。
+    共有するとCAコンソールの「RAからの共有」に表示されます。
   </div>
-  <div class="note info mt-m">
-    RAは<b>企業側</b>、CAは<b>求職者側</b>を担当します。両者は同じ案件（application）を別の視点から見ているため、
-    片方の更新がもう片方に即座に反映されます。
+  <div class="panel">
+    <div class="ph"><div class="title-m">共有が必要な求人</div><span class="pill warn">${need.length}件</span></div>
+    <div class="pb" style="padding:0">
+      ${need.length ? need.map(x=>{
+        const shared = raSharedTo(x.co.id);
+        return `
+        <div class="share-row">
+          ${companyAvatar(x.co,38)}
+          <div class="grow">
+            <div class="nm">${esc(x.co.name)}</div>
+            <div class="sb">求人枠 ${x.open}件・応募 ${x.applied}件・想定手数料 ${nfmt(feeOf(x.co))}万</div>
+            <div class="mt-s">${shared.length
+              ? `<span class="pill ok">✓ ${shared.length}名のCAに共有済み</span>`
+              : '<span class="pill warn">未共有</span>'}</div>
+          </div>
+          <div class="row" style="gap:7px;flex-shrink:0">
+            <button class="btn sm g" data-a="ra-open" data-v="${x.co.id}">求人票</button>
+            <button class="btn sm ${shared.length?'g':'p'}" data-a="ra-share" data-v="${x.co.id}">
+              ${shared.length?'再共有':'CAに共有'}
+            </button>
+          </div>
+        </div>`;
+      }).join('') : '<div class="pb"><div class="note ok">共有が必要な求人はありません。</div></div>'}
+    </div>
+  </div>`;
+}
+
+/* CA別の送客 — どのCAが動いてくれているか */
+function raCaHtml(mine){
+  const rows = CA_LIST.map(ca=>{
+    const apps = mine.reduce((n,co)=>n + allApplications().filter(a=>a.companyId===co.id && a.caId===ca.id).length, 0);
+    const won  = mine.reduce((n,co)=>n + allApplications().filter(a=>a.companyId===co.id && a.caId===ca.id && a.stage>=4).length, 0);
+    return {ca, apps, won, rate: apps ? Math.round(won/apps*100) : 0};
+  }).sort((a,b)=>b.apps-a.apps);
+  const max = Math.max(1, ...rows.map(r=>r.apps));
+  return `
+  <div class="note info mb-m">
+    担当企業に対して、どのCAが何人送ってくれているかです。
+    <b>送客がゼロに近いCAには、求人の内容が届いていない</b>と考えてください。
+  </div>
+  <div class="panel">
+    <div class="ph"><div class="title-m">CA別の送客状況</div></div>
+    <div class="pb">
+      ${rows.map(r=>`
+        <div class="cabar">
+          <div class="cb-name">
+            ${personAvatar(r.ca.name,32)}
+            <div><div class="nm">${esc(r.ca.name)}</div><div class="sb">${esc(r.ca.role)}</div></div>
+          </div>
+          <div class="cb-bar"><i style="width:${(r.apps/max)*100}%"></i></div>
+          <div class="cb-num"><b>${r.apps}</b><span>送客</span></div>
+          <div class="cb-num"><b>${r.won}</b><span>決定</span></div>
+          <div class="cb-num"><b class="${r.rate>=20?'ok':r.rate>=10?'warn':'bad'}">${r.rate}%</b><span>決定率</span></div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+/* 企業の反応 — CAに返すべき情報 */
+function raFbHtml(mine){
+  return `
+  <div class="note info mb-m">
+    企業ポータルで入力された評価の集計です。<b>見送りが続いている企業は、
+    求める人物像がCAに正しく伝わっていない</b>可能性があります。ここをCAに返すのがRAの役割です。
+  </div>
+  <div class="panel">
+    <div class="ph"><div class="title-m">企業からの評価</div></div>
+    <div class="pb" style="padding:0;overflow-x:auto">
+      <table class="tbl">
+        <thead><tr><th>企業</th><th>応募</th><th>◯ 通過</th><th>△ 保留</th><th>✕ 見送り</th><th>未評価</th><th></th></tr></thead>
+        <tbody>
+          ${mine.map(co=>{
+            const r = ratingStats(co.id);
+            const total = r.pass + r.hold + r.drop;
+            const bad = total >= 2 && r.drop / total >= 0.5;
+            return `
+            <tr class="tr-row ${bad?'warn-row':''}">
+              <td><div class="tname">${companyAvatar(co,30)}<div><div class="nm">${esc(co.name)}</div>
+                ${bad?'<div class="sb" style="color:var(--warn)">見送りが多い。CAへの共有を推奨</div>':''}</div></div></td>
+              <td class="tnum">${appsForCompany(co.id).length}</td>
+              <td class="tnum" style="color:var(--ok)">${r.pass}</td>
+              <td class="tnum" style="color:var(--warn)">${r.hold}</td>
+              <td class="tnum" style="color:var(--danger)">${r.drop}</td>
+              <td class="tnum" style="color:var(--faint)">${r.none}</td>
+              <td><button class="btn sm g" data-a="ra-share" data-v="${co.id}">CAに共有</button></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="note gray mt-m" style="font-size:11px">
+    評価は企業ロールの画面で ✕ △ ◯ を押すと入ります。商談では、企業側で押してから
+    この画面に切り替えると、即座に反映される様子を見せられます。
   </div>`;
 }
 
@@ -4002,9 +4280,14 @@ function clientHtml(){
     同意が確認できない候補者は氏名・連絡先がマスクされます（本番仕様）。
   </div>
 
-  <div class="kpis">
+  <div class="kpis k7">
     <div class="kpi"><div class="strip" style="background:var(--sumi)"></div>
       <div class="n">${apps.length}</div><div class="l">応募者</div></div>
+    <div class="kpi ${apps.filter(a=>a.superLike&&consentOf(a)).length?'alert':''}">
+      <div class="strip" style="background:#E8C36A"></div>
+      <div class="n" style="color:#B8860B">${apps.filter(a=>a.superLike&&consentOf(a)).length}</div>
+      <div class="l">★ 第一志望</div>
+      <div class="d" style="color:#B8860B">本人が強く志望</div></div>
     <div class="kpi"><div class="strip" style="background:var(--warn)"></div>
       <div class="n">${apps.filter(a=>a.stage===2).length}</div><div class="l">日程調整中</div></div>
     <div class="kpi"><div class="strip" style="background:var(--info)"></div>
@@ -4020,6 +4303,10 @@ function clientHtml(){
   <div class="panel">
     <div class="ph"><div class="title-m">応募候補者</div>
       <div class="sub" style="font-size:11.5px">評価を入力すると、担当CA・RAに即時共有されます</div></div>
+    <div class="note info" style="margin:0;border-radius:0;border-left:none;border-bottom:1px solid var(--line)">
+      <b>★ 第一志望</b>は、求職者が1日1回だけ使える意思表示を、この企業に対して行ったことを示します。
+      応募数が同じでも、<b>本人の志望度が高い候補者から先に見る</b>ための指標です。
+    </div>
     <div class="pb" style="padding:0">
       ${apps.length ? apps.map(a=>{
         const c = candOf(a.candId);
@@ -4032,7 +4319,10 @@ function clientHtml(){
           <div class="grow">
             <div class="nm">${esc(nm)} ${ok?'':'<span class="pill warn">情報提供の同意待ち</span>'}</div>
             <div class="sb">${ok&&c?esc(label(CAREER_STAGES,c.stage)):'—'}・${esc(STAGE_LABELS[a.stage])}・${a.daysOpen}日経過</div>
-            <div class="mt-s"><span class="pill ${a.source==='ai'?'brand':'gray'}">${a.source==='ai'?'AI推薦':'CA推薦'}</span></div>
+            <div class="mt-s row wrapf" style="gap:5px">
+              <span class="pill ${a.source==='ai'?'brand':'gray'}">${a.source==='ai'?'AI推薦':'CA推薦'}</span>
+              ${a.superLike&&ok?'<span class="pill super">★ 第一志望</span>':''}
+            </div>
           </div>
           <div class="client-acts">
             <div class="rate-set" role="group" aria-label="評価">
@@ -4639,6 +4929,7 @@ function cardHtml(c, depth){
     ${cardMediaHtml(c)}
     <div class="cshade"></div>
     <div class="cinfo">
+      ${c.fromCa?'<div class="cfrom">担当CAからのおすすめ</div>':''}
       <div class="crank" style="color:${rk.c||'#fff'}">${esc(rk.r)}<span>マッチ ${c.score}</span></div>
       <h2 class="cname">${esc(c.name)}</h2>
       <div class="cmeta">${esc(label(INDUSTRIES,c.ind))}　${esc(label(LOCATIONS,c.loc))}　${c.pay[0]}〜${c.pay[1]}万</div>
@@ -4749,6 +5040,7 @@ function likedHtml(){
           <div class="nm">${esc(c.name)}</div>
           <div class="sb">${esc(label(INDUSTRIES,c.ind))}・面接ログ ${logsFor(c).total}件</div>
           <div class="mt-s consent-state">
+            ${c.fromCa?'<span class="pill brand">担当CAから</span>':''}
             ${hasConsent(c.id)
               ? '<span class="pill consent">応募済み</span>'
               : '<span class="pill noconsent">未応募</span>'}
@@ -4986,6 +5278,34 @@ function doneHtml(){
 /* ============================================================================
    CA管理コンソール
 ============================================================================ */
+/* RAが共有した求人をCA側で受け取る。共有しっぱなしで終わらせないための受け皿。 */
+function raSharedPanelHtml(){
+  const ids = raSharedList();
+  if(!ids.length) return '';
+  return `
+  <div class="panel mb-m">
+    <div class="ph"><div class="title-m">RAからの共有求人</div><span class="pill brand">${ids.length}件</span></div>
+    <div class="pb" style="padding:0">
+      ${ids.map(id=>{
+        const co = coOf(id); if(!co) return '';
+        const x = companyStats(id);
+        return `
+        <div class="share-row">
+          ${companyAvatar(co,38)}
+          <div class="grow">
+            <div class="nm">${esc(co.name)}</div>
+            <div class="sb">${esc(label(INDUSTRIES,co.ind))}・${esc(label(LOCATIONS,co.loc))}・${co.pay[0]}〜${co.pay[1]}万・求人枠 ${x.open}件</div>
+            <div class="sb mt-s" style="color:var(--shu)">担当RAから「送客をお願いしたい」と共有されています</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="note gray" style="margin:0;border:none;border-top:1px solid var(--line);border-radius:0">
+      担当求職者を開いて「企業を送る」から、この求人を送れます。
+    </div>
+  </div>`;
+}
+
 function caHtml(){
   const all = allCandidates();
   const counts = {applying:0, scheduling:0, interviewed:0, offer:0};
@@ -5024,6 +5344,8 @@ function caHtml(){
       <div class="n" style="color:var(--warn)">${needAction}</div><div class="l">要対応</div>
       <div class="d" style="color:var(--warn)">未読DM ${totalUnread()}件を含む</div></div>
   </div>
+
+  ${raSharedPanelHtml()}
 
   ${salesPanelHtml()}
   ${coachPanelHtml()}
@@ -5210,16 +5532,130 @@ function drawerHtml(){
     <div class="dbody">
       ${al.length?`<div class="mb-m">${al.map(a=>`<div class="note ${a.lv==='danger'?'warn':a.lv==='warn'?'warn':'info'} mb-s"><b>${esc(a.t)}</b>：${esc(a.d)}</div>`).join('')}</div>`:''}
       <div class="tabs">
+        <button class="${tab==='send'?'on':''}" data-a="dr-tab" data-v="send">企業を送る${caSentCount(c.id)?`<span class="tab-badge ok">${caSentCount(c.id)}</span>`:''}</button>
+        <button class="${tab==='focus'?'on':''}" data-a="dr-tab" data-v="focus">注力リスト</button>
         <button class="${tab==='ai'?'on':''}" data-a="dr-tab" data-v="ai">AI分析</button>
         <button class="${tab==='co'?'on':''}" data-a="dr-tab" data-v="co">応募状況</button>
         <button class="${tab==='dm'?'on':''}" data-a="dr-tab" data-v="dm">DM${dmUnreadFor(c.id)?`<span class="tab-badge">${dmUnreadFor(c.id)}</span>`:''}</button>
         <button class="${tab==='tl'?'on':''}" data-a="dr-tab" data-v="tl">活動ログ</button>
       </div>
-      ${tab==='ai' ? drawerAiHtml(c,isLive) : tab==='co' ? drawerCoHtml(c,isLive)
+      ${tab==='send' ? drawerSendHtml(c) : tab==='focus' ? drawerFocusHtml(c,isLive)
+        : tab==='ai' ? drawerAiHtml(c,isLive) : tab==='co' ? drawerCoHtml(c,isLive)
         : tab==='dm' ? drawerDmHtml(c,isLive) : drawerTlHtml(c,isLive)}
     </div>
   </div>`;
 }
+/* ---------- 企業を送る ----------
+   AIが並べた順に出し、CAはチェックを入れて送るだけにする。
+   1件ずつ選んで1件ずつ送る作りにすると、ここがCAの新しい工数になってしまう。 */
+function drawerSendHtml(c){
+  const sent = caSentTo(c.id);
+  const list = scoresForCandidate(c);
+  const picks = state.caPick || [];
+  return `
+  <div class="note info mb-m">
+    AIが相性順に並べています。<b>チェックを入れてまとめて送る</b>と、求職者のアプリに
+    「担当CAから」として最優先で表示されます。何社でも構いません。
+  </div>
+
+  ${sent.length ? `
+    <div class="sec-head"><span class="bar" style="background:var(--ok)"></span>送信済み（${sent.length}社）</div>
+    <div class="sent-list mb-m">
+      ${sent.map(id=>{
+        const co = coOf(id); if(!co) return '';
+        const sc = (list.find(x=>x.id===id)||{}).score;
+        return `<div class="sent-row">
+          ${companyAvatar(co,30)}
+          <div class="grow"><div class="nm">${esc(co.name)}</div>
+            <div class="sb">${esc(label(INDUSTRIES,co.ind))}${sc?'・マッチ '+sc:''}</div></div>
+          <button class="btn sm g" data-a="ca-unsend" data-cand="${c.id}" data-v="${id}">取消</button>
+        </div>`;
+      }).join('')}
+    </div>` : ''}
+
+  <div class="sec-head"><span class="bar"></span>送る企業を選ぶ</div>
+  <div class="pick-list">
+    ${list.map(co=>{
+      const done = sent.includes(co.id);
+      const on = picks.includes(co.id);
+      return `
+      <button class="pick-row ${on?'on':''} ${done?'done':''}" ${done?'disabled':''}
+              data-a="ca-pick" data-v="${co.id}">
+        <span class="pk">${done?'✓':(on?'✓':'')}</span>
+        ${companyAvatar(co,32)}
+        <span class="grow">
+          <span class="nm">${esc(co.name)}</span>
+          <span class="sb">${esc(label(INDUSTRIES,co.ind))}・${esc(label(LOCATIONS,co.loc))}・${co.pay[0]}〜${co.pay[1]}万</span>
+        </span>
+        <span class="sc">${co.score}</span>
+      </button>`;
+    }).join('')}
+  </div>
+
+  <div class="send-bar">
+    <button class="btn p block" data-a="ca-send" data-v="${c.id}" ${picks.length?'':'disabled'}>
+      ${picks.length ? picks.length+'社を送る' : '送る企業を選んでください'}
+    </button>
+    ${picks.length?`<button class="link-btn mt-s" data-a="ca-pick-clear">選択を解除</button>`:''}
+  </div>`;
+}
+
+/* ---------- 注力リスト（求職者のマイページと同じ順位をCAにも見せる） ----------
+   求職者が何を優先しているかが見えないと、CAは全件に同じ時間をかけることになる。 */
+function drawerFocusHtml(c, isLive){
+  if(isLive){
+    const focus = focusList();
+    const offers = offerList();
+    if(!focus.length) return '<div class="note gray">まだ「気になる」に企業が入っていません。</div>';
+    return `
+    <div class="note info mb-m">
+      求職者本人のマイページに出ているものと<b>同じ順位</b>です。
+      マッチ度・選考の進み具合・面談予約の有無・スーパーライクを合成した「注力スコア」順。
+    </div>
+    ${offers.length?`<div class="sec-head"><span class="bar" style="background:var(--ok)"></span>内定（${offers.length}社）</div>
+      ${offers.map(x=>focusRowHtml(x,-1)).join('')}`:''}
+    <div class="sec-head"><span class="bar"></span>注力リスト</div>
+    ${focus.map((x,i)=>focusRowHtml(x,i)).join('')}
+    <div class="note brand mt-m">
+      <b>CAの動き方</b><br>
+      上位3社に時間を集中してください。${focus[0]?esc(focus[0].name)+'は':''}
+      ${state.schedules[focus[0]&&focus[0].id]?'面談予約済みです。':'まだ面談が未予約です。まずここを押さえてください。'}
+    </div>`;
+  }
+  // シード候補者は擬似データで同じ画面を見せる
+  const list = scoresForCandidate(c).slice(0, Math.max(3, c.matched||3));
+  return `
+  <div class="note info mb-m">求職者本人のマイページに出ているものと同じ順位です。</div>
+  <div class="sec-head"><span class="bar"></span>注力リスト</div>
+  ${list.map((x,i)=>`
+    <div class="frow">
+      <div class="fr-rank ${i<3?'top':''}">${i+1}</div>
+      ${companyAvatar(x,34)}
+      <div class="grow">
+        <div class="nm">${esc(x.name)}</div>
+        <div class="sb">${esc(label(INDUSTRIES,x.ind))}・マッチ ${x.score}</div>
+      </div>
+    </div>`).join('')}`;
+}
+function focusRowHtml(x, i){
+  const st = stageOf(x.id);
+  const sup = (state.superLiked||[]).includes(x.id);
+  return `
+  <div class="frow">
+    ${i>=0?`<div class="fr-rank ${i<3?'top':''}">${i+1}</div>`:'<div class="fr-rank ok">◎</div>'}
+    ${companyAvatar(x,34)}
+    <div class="grow">
+      <div class="nm">${esc(x.name)}</div>
+      <div class="sb">
+        <span class="pstage s${st}">${esc(STAGES[st])}</span>
+        ${sup?'<span class="pill brand">★ スーパーライク</span>':''}
+        ${state.schedules[x.id]?'<span class="pill ok">面談予約済み</span>':''}
+      </div>
+    </div>
+    <div class="fr-sc">${focusScore(x)}</div>
+  </div>`;
+}
+
 function drawerAiHtml(c, isLive){
   if(isLive){
     const a = analyzeProfile(state.profile);
@@ -5539,14 +5975,17 @@ const TOUR = [
   {t:'① 求職者がプロフィールを入力', b:'性格・重視すること・業界・条件を2分で入力します。ここが従来はCAの初回ヒアリング（30〜60分）でした。'},
   {t:'② AIが強み・タイプを分析', b:'強み・補強点に加えて、4軸16分類の「ワークスタイル・タイプ」を判定します。追加入力は不要で、既に入力済みの項目から自動算出しています。'},
   {t:'③ スワイプで企業を選ぶ', b:'マッチ度はSS/S/A/Bのランクで示しますが、必ず5因子の内訳を併記します。「なぜこのランクなのか」を説明できることが、この領域では法規制上も重要です。'},
-  {t:'④ スーパーライク', b:'1日1回だけ使える強い意思表示です。CA側では「本人が本気で狙っている企業」として注力リストの順位に反映されます。'},
+  {t:'④ スーパーライク', b:'1日1回だけ使える強い意思表示です。CA側では「本人が本気で狙っている企業」として注力リストの順位に反映され、企業ポータルでも「★ 第一志望」として見えます。応募数が同じでも志望度の高い候補者から先に見てもらえるため、面接設定率が上がります。'},
   {t:'⑤ 応募＝情報提供への同意', b:'ここが他社との差になります。スワイプの「興味あり」では企業に何も渡りません。「この企業に応募する」を押すと、渡る情報の一覧が出て、同意した時点で初めて企業側に開示されます。企業ロールに切り替えると、同意前の候補者が氏名すら見えない状態を確認できます。'},
   {t:'⑥ 面接ログとAI対策', b:'同じ企業を受けた候補者の質問・意図・通過理由が読めます。面接済みの候補者には投稿を促す導線が出て、ログが自動的に貯まっていきます。氏名・学校名・連絡先は保存する前に伏せ字化されます。'},
   {t:'⑦ 収集してはいけない情報', b:'自己PRや面接ログに、本籍・家族構成・思想信条・労働組合の加入状況などを書くと、保存がブロックされます。職業安定法5条の5で収集が禁止されている項目です。注意書きではなく、仕組みで止めています。'},
   {t:'⑧ マイページ', b:'やり取り中の企業数・面談予定・DMを1画面に集約。進捗タブでは「内定リスト」と、どこに時間を使うべきかを示す「注力リスト」をランキング順で表示します。プロフィールタブの下部には、どの企業に情報を渡しているかの一覧と、その取り消しボタンがあります。'},
   {t:'⑨ CA管理コンソール', b:'進捗一覧に加えて、AIが「離脱リスク」「日程未確定」などを自動検知します。CAは対応が必要な人だけを見ればよくなります。ヘッダーには蓄積された面接ログの件数が出ます。'},
-  {t:'⑩ 売上達成率', b:'CAごと・チーム全体の達成率をグラフで可視化します。月初はMTDが小さく出るため、着地見込を主指標にしています。'},
-  {t:'⑪ 導入効果シミュレーション', b:'クロージングはここです。相手の会社の数値をその場で入力すると、削減工数と増加粗利、投資回収月数が即座に出ます。'}
+  {t:'⑩ CAが企業を送る', b:'AIに任せきりにはしません。求職者の行をクリックして「企業を送る」タブを開くと、AIスコア順に並んだ企業を複数選んでまとめて送れます。送った企業は求職者のカードに「担当CAからのおすすめ」として最優先で出てきます。一度スキップされた企業でも、CAが送れば必ずもう一度本人の目に触れます。'},
+  {t:'⑪ 注力リストをCAにも共有', b:'求職者本人のマイページに出ている「注力リスト」を、CA側でも同じ順位で見られます。本人がどこを本命だと思っているかが分かった状態で面談に入れるため、「まずどこから聞くか」を探る時間が要りません。'},
+  {t:'⑫ RAコンソール', b:'RA（企業側担当）の画面です。求人の充足状況、CAへの求人共有、CA別の送客実績、企業からの評価が1画面にまとまります。RAが共有した求人はCAコンソールに「RAからの共有求人」として即座に届き、企業とCAの間の連絡が仕組みの中で完結します。'},
+  {t:'⑬ 売上達成率', b:'CAごと・チーム全体の達成率をグラフで可視化します。月初はMTDが小さく出るため、着地見込を主指標にしています。'},
+  {t:'⑭ 導入効果シミュレーション', b:'クロージングはここです。相手の会社の数値をその場で入力すると、削減工数と増加粗利、投資回収月数が即座に出ます。'}
 ];
 function tourHtml(){
   const i = state.tour;
@@ -5626,6 +6065,47 @@ function submitProfile(){
   startAnalyze();
 }
 
+/* スコア順に並べたうえで、担当CAが送ってきた企業を先頭に上げる。
+   CAが「この子にはこれ」と選んだものを、AIのスコアより優先して見せる。 */
+function sortedScored(){
+  const sent = caSentTo('live');
+  return COMPANIES.map(c=>{
+    const r = scoreCompany(c, state.profile);
+    return Object.assign({}, c, {score:r.score, factors:r.factors, fromCa: sent.includes(c.id)});
+  }).sort((a,b)=>{
+    if(a.fromCa !== b.fromCa) return a.fromCa ? -1 : 1;
+    return b.score - a.score;
+  });
+}
+/* CAが送信したあと、すでに提示済みのデッキにも反映する。
+
+   CAが「この子にはこれ」と選んだ企業は、求職者が一度スキップしていても
+   もう一度出す。CAの判断のほうが、その場のスワイプより重いという扱い。
+   ただし既に「気になる」に入っているものは動かさない（もう届いているため）。 */
+function refreshScored(){
+  if(!state.scored.length) return;
+  const sent = caSentTo('live');
+  state.scored.forEach(c=>{ c.fromCa = sent.includes(c.id); });
+
+  const back = sent.filter(id => !state.liked.includes(id));
+  if(!back.length) return;
+
+  const resurface = [], others = [];
+  let removedFromSeen = 0;
+  state.scored.forEach((c, i)=>{
+    if(back.includes(c.id)){
+      resurface.push(c);
+      if(i < state.idx) removedFromSeen++;
+    } else others.push(c);
+  });
+  resurface.sort((a,b)=>b.score-a.score);
+
+  const seen = clamp(state.idx - removedFromSeen, 0, others.length);
+  state.scored = others.slice(0, seen).concat(resurface, others.slice(seen));
+  state.idx = seen;                                   // 次に出るのがCAの推薦になる
+  state.passed = state.passed.filter(id => !back.includes(id));   // スキップ履歴も戻す
+}
+
 function startAnalyze(){
   state.step='analyzing'; state.anStep=0; render();
   logActivity('プロフィールを登録');
@@ -5633,10 +6113,7 @@ function startAnalyze(){
   const tick = ()=>{
     i++;
     if(i < AN_STEPS.length){ state.anStep = i; render(); setTimeout(tick, 750); return; }
-    state.scored = COMPANIES.map(c=>{
-      const r = scoreCompany(c, state.profile);
-      return Object.assign({}, c, {score:r.score, factors:r.factors});
-    }).sort((a,b)=>b.score-a.score);
+    state.scored = sortedScored();
     state.idx = 0; state.liked = []; state.passed = []; state.history = [];
     state.step = 'report';
     logActivity('AI分析が完了（'+state.scored.length+'社を提示）');
@@ -6060,12 +6537,19 @@ function bindApp(){
       case 'coach-sel':   state.caCoachSel=v; render(); break;
       case 'ca-tab':      state.caTab=v; render(); break;
       case 'ca-filter':   state.caFilter=v; render(); break;
-      case 'ca-open':     state.caOpen=v; state.caDrawerTab = dmUnreadFor(v) ? 'dm' : 'ai';
+      case 'ca-open':     state.caOpen=v; state.caPick=[]; state.caDrawerTab = dmUnreadFor(v) ? 'dm' : 'send';
                           if(state.caDrawerTab==='dm') markDmRead(v);
                           renderLayer(); break;
       case 'close-drawer':state.caOpen=null; render(); break;   // 未読バッジを一覧に反映するため全体を再描画
       case 'dr-tab':      state.caDrawerTab=v; if(v==='dm' && state.caOpen) markDmRead(state.caOpen); renderLayer(); break;
       case 'ca-dm-send':  sendDmAsCa(v); break;
+      /* ---- v2.4: CAが企業を送る ---- */
+      case 'ca-pick':     toggleIn(state.caPick, v, 0); renderLayer(); break;
+      case 'ca-pick-clear': state.caPick = []; renderLayer(); break;
+      case 'ca-send':     caSendCompanies(v); break;
+      case 'ca-unsend':   caUnsend(el.dataset.cand, v); break;
+      case 'ra-tab':      state.raTab = v; render(); break;
+      case 'ra-share':    raShare(v); break;
       case 'ca-dm-quick': state.caDmDraft=v; renderLayer();
                           { const i=document.getElementById('ca-dm-input'); if(i){i.focus();} } break;
       case 'add-log':     state.modal='log'; state.logNg=[];
