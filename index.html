@@ -1821,6 +1821,135 @@ tr.warn-row td{background:var(--warn-bg);}
 .tab-badge.ok{background:var(--ok);}
 .pill.super{background:#FCF3D9;border:1px solid #E8C36A;color:#8A6A16;}
 
+/* ============================================================
+   v2.5 — 今日のトピック / 管理くん連携 / カレンダー / 応募条件
+============================================================ */
+
+/* --- RA：今日のトピック --- */
+.topic-panel{border-left:3px solid var(--shu);}
+.tkrow{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-bottom:1px solid var(--line2);}
+.tkrow:last-child{border-bottom:none;}
+.tkrow .ti{
+  width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-pill);font-size:12px;font-weight:800;
+  background:var(--warn-bg);color:var(--warn);
+}
+.tkrow.danger .ti{background:var(--danger-bg);color:var(--danger);}
+.tkrow .tt{font-size:13px;font-weight:800;}
+.tkrow .tt .tx{font-weight:700;color:var(--ink2);}
+.tkrow .td{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.75;}
+.tkrow .tf{font-size:10.5px;font-weight:800;margin-top:5px;letter-spacing:.04em;}
+.tk-new{border-bottom:1px solid var(--line);background:var(--surface2);}
+.tk-row{display:flex;gap:9px;align-items:center;margin-bottom:9px;flex-wrap:wrap;}
+.tk-row:last-of-type{margin-bottom:0;}
+.tk-row .grow{flex:1 1 220px;min-width:0;}
+
+/* --- RA：管理くん連携 --- */
+.kn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px;}
+.kn-b{border:1px solid var(--line);padding:11px 13px;border-radius:var(--r);}
+.kn-b .kl{font-size:10.5px;font-weight:800;color:var(--muted);margin-bottom:5px;letter-spacing:.06em;}
+.kn-b .kv{font-size:12.5px;font-weight:700;word-break:break-all;}
+.kn-b .kv.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;letter-spacing:0;}
+.kn-d{display:flex;gap:11px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line2);font-size:12px;}
+.kn-d:last-child{border-bottom:none;}
+.kn-d .grow{flex:1;font-weight:700;}
+.kn-d .sub{font-size:11px;}
+.kd-t{
+  flex:none;font-size:10px;font-weight:800;padding:3px 8px;border:1px solid;
+  border-radius:var(--r-pill);letter-spacing:.04em;
+}
+.kd-t.new{color:var(--ok);border-color:var(--ok-line);background:var(--ok-bg);}
+.kd-t.upd{color:var(--info);border-color:var(--brand-300);background:var(--info-bg);}
+.kd-t.end{color:var(--muted);border-color:var(--line);background:var(--surface2);}
+.kd-t.err{color:var(--danger);border-color:var(--danger-line);background:var(--danger-bg);}
+
+/* --- 求職者：カレンダー --- */
+.calwrap{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:14px 12px;}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.cal-title{font-family:var(--mincho);font-size:15px;font-weight:700;letter-spacing:.06em;}
+.cal-nav{
+  width:32px;height:32px;border:1px solid var(--line);background:transparent;
+  border-radius:var(--r-pill);cursor:pointer;font-size:13px;color:var(--ink2);
+}
+.cal-nav:hover{border-color:var(--shu);color:var(--shu);}
+.cal-wd{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;}
+.cal-wd span{text-align:center;font-size:10.5px;font-weight:800;color:var(--muted);padding:4px 0;}
+.cal-wd .sun{color:var(--danger);}
+.cal-wd .sat{color:var(--info);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-c{
+  aspect-ratio:1/1;border:1px solid transparent;background:transparent;border-radius:var(--r-sm);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  cursor:pointer;padding:0;
+}
+.cal-c.out{visibility:hidden;cursor:default;}
+.cal-c .cd{font-size:12.5px;font-weight:700;color:var(--ink2);line-height:1;}
+.cal-c .cdots{display:flex;gap:2px;height:5px;}
+.cal-c .cdots i{width:5px;height:5px;border-radius:50%;display:block;}
+.cal-c.has{background:var(--surface2);}
+.cal-c.today{border-color:var(--shu);}
+.cal-c.today .cd{color:var(--shu);}
+.cal-c.on{background:var(--ink);}
+.cal-c.on .cd{color:#fff;}
+.cal-c:hover:not(.on):not(.out){border-color:var(--brand-300);}
+.cal-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:11px;padding-top:10px;border-top:1px solid var(--line2);}
+.cal-legend span{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:var(--muted);}
+.cal-legend i{width:7px;height:7px;border-radius:50%;display:block;}
+.evrow{display:flex;gap:11px;align-items:center;padding:12px 2px;border-bottom:1px solid var(--line2);}
+.evrow:last-of-type{border-bottom:none;}
+.evrow .ek{width:3px;align-self:stretch;border-radius:2px;flex:none;}
+.evrow .et{font-size:13px;font-weight:800;}
+.evrow .es{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.7;}
+
+/* --- 応募条件（スクリーニング） --- */
+.scr-set{display:flex;gap:7px;flex-wrap:wrap;}
+.scr-chip{
+  display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:5px 11px;background:var(--surface2);
+}
+.scr-chip b{font-weight:800;color:var(--muted);font-size:10.5px;}
+.scr-chip i{
+  font-style:normal;font-size:9.5px;font-weight:800;padding:1px 6px;border-radius:var(--r-pill);
+  background:var(--line2);color:var(--muted);
+}
+.scr-chip.must{border-color:var(--shu);background:var(--brand-50);}
+.scr-chip.must i{background:var(--shu);color:#fff;}
+.scr-edit{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+.scr-row{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line2);}
+.scr-row:last-of-type{border-bottom:none;}
+.scr-l{flex:none;width:96px;font-size:12px;font-weight:800;padding-top:5px;}
+.scr-c{flex:1;display:flex;gap:6px;flex-wrap:wrap;min-width:0;}
+.chip.sm{padding:5px 11px;font-size:11.5px;}
+.scr-m{
+  flex:none;border:1px solid var(--line);background:transparent;color:var(--muted);
+  font-size:10.5px;font-weight:800;padding:5px 11px;border-radius:var(--r-pill);cursor:pointer;
+}
+.scr-m.on{background:var(--shu);border-color:var(--shu);color:#fff;}
+.scr-out{
+  border:1px solid var(--brand-300);background:var(--brand-50);border-radius:var(--r);
+  padding:10px 13px;font-size:11.5px;line-height:1.8;margin-bottom:12px;color:var(--ink2);
+}
+.fitlist{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;}
+.fitrow{display:flex;gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line2);font-size:12px;}
+.fitrow:last-child{border-bottom:none;}
+.fitrow .fi{width:16px;flex:none;font-weight:800;text-align:center;}
+.fitrow.ok .fi{color:var(--ok);}
+.fitrow.no .fi{color:var(--faint);}
+.fitrow .fl{flex:none;width:74px;font-weight:800;color:var(--muted);font-size:11px;}
+.fitrow .fv{flex:1;font-weight:700;}
+.fitrow .fb{
+  flex:none;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:var(--r-pill);
+  background:var(--line2);color:var(--muted);
+}
+.fitrow .fb.must{background:var(--shu);color:#fff;}
+.sh-note2{font-size:11px;color:var(--muted);line-height:1.8;margin-top:8px;}
+
+@media(max-width:620px){
+  .scr-row{flex-wrap:wrap;}
+  .scr-l{width:100%;padding-top:0;}
+  .tk-row{flex-direction:column;align-items:stretch;}
+}
+
 </style>
 </head>
 <body>
@@ -1845,7 +1974,7 @@ tr.warn-row td{background:var(--warn-bg);}
    （このリポジトリには含まない）。
 ============================================================================ */
 
-const APP_VERSION = '2.4';
+const APP_VERSION = '2.5';
 const STORAGE_KEY = 'swipeca_demo_v2';
 
 /* ---------- マスタ ---------- */
@@ -1955,6 +2084,103 @@ const CAREER_STAGES = [
   {k:'second',  l:'第二新卒（〜3年）'},
   {k:'mid',     l:'中途（4年以上）'}
 ];
+
+/* ---------- v2.5 企業のスクリーニング条件 ----------
+   企業が「この条件を満たす人だけ紹介してほしい」と指定する項目。
+   必須（must）を満たさない企業は、その求職者のカードデッキに出さない。
+   歓迎（want）は出したうえで適合状況だけ表示する。 */
+
+const EDU_LEVELS = [
+  {k:'hs',   l:'高卒以上',       rank:1},
+  {k:'voc',  l:'専門・短大卒以上', rank:2},
+  {k:'uni',  l:'大卒以上',       rank:3},
+  {k:'grad', l:'院卒以上',       rank:4}
+];
+const GENDERS = [
+  {k:'na',     l:'回答しない'},
+  {k:'male',   l:'男性'},
+  {k:'female', l:'女性'},
+  {k:'other',  l:'その他'}
+];
+const SKILLS = [
+  {k:'toeic',  l:'TOEIC 700以上'},
+  {k:'driver', l:'普通自動車免許'},
+  {k:'pg',     l:'プログラミング実務'},
+  {k:'boki',   l:'簿記2級以上'},
+  {k:'design', l:'デザインツール実務'},
+  {k:'mgr',    l:'マネジメント経験'},
+  {k:'care',   l:'介護・医療系資格'},
+  {k:'sales',  l:'法人営業経験'}
+];
+const skillLabel = k => (SKILLS.find(s=>s.k===k)||{}).l || k;
+const eduRank    = k => (EDU_LEVELS.find(e=>e.k===k)||{}).rank || 0;
+const eduLabel   = k => (EDU_LEVELS.find(e=>e.k===k)||{}).l || '指定なし';
+const genderLabel= k => (GENDERS.find(g=>g.k===k)||{}).l || '指定なし';
+
+/* 企業ごとの初期条件。企業ポータルから上書きできる（state.screens） */
+const COMPANY_SCREEN = {
+  c01:{edu:'uni',  ageMax:35, gender:'na', jobChangeMax:3, must:['edu','age'],        want:['pg','toeic']},
+  c02:{edu:'uni',  ageMax:30, gender:'na', jobChangeMax:2, must:['edu','age','job'],  want:['toeic']},
+  c03:{edu:'',     ageMax:0,  gender:'na', jobChangeMax:0, must:[],                   want:['pg']},
+  c04:{edu:'hs',   ageMax:45, gender:'na', jobChangeMax:0, must:['edu'],              want:['care','driver']},
+  c05:{edu:'voc',  ageMax:40, gender:'na', jobChangeMax:4, must:['edu'],              want:['driver']},
+  c06:{edu:'',     ageMax:38, gender:'na', jobChangeMax:0, must:[],                   want:['design']},
+  c07:{edu:'uni',  ageMax:32, gender:'na', jobChangeMax:2, must:['edu','age','job'],  want:['boki','toeic']},
+  c08:{edu:'hs',   ageMax:42, gender:'na', jobChangeMax:0, must:['edu'],              want:['driver','pg']},
+  c09:{edu:'voc',  ageMax:0,  gender:'na', jobChangeMax:0, must:[],                   want:['pg','sales']},
+  c10:{edu:'hs',   ageMax:45, gender:'na', jobChangeMax:0, must:['edu'],              want:['driver']},
+  c11:{edu:'uni',  ageMax:40, gender:'na', jobChangeMax:0, must:['edu'],              want:['edu2','toeic']},
+  c12:{edu:'',     ageMax:35, gender:'na', jobChangeMax:3, must:['job'],              want:['sales']},
+  c13:{edu:'grad', ageMax:33, gender:'na', jobChangeMax:1, must:['edu','age','job'],  want:['toeic','mgr']},
+  c14:{edu:'voc',  ageMax:40, gender:'na', jobChangeMax:0, must:['edu'],              want:['pg','driver']}
+};
+function screenOf(coId){
+  const base = COMPANY_SCREEN[coId] || {edu:'', ageMax:0, gender:'na', jobChangeMax:0, must:[], want:[]};
+  return Object.assign({}, base, (state.screens||{})[coId] || {});
+}
+
+/* 求職者の年齢。生年が未入力なら卒業年度から推定する（大卒22歳想定） */
+function seekerAge(p){
+  p = p || state.profile;
+  const y = new Date().getFullYear();
+  if(p.birthYear) return y - parseInt(p.birthYear, 10);
+  if(p.gradYear)  return (y - parseInt(p.gradYear, 10)) + 22;
+  return 0;
+}
+/* 求職者の学歴ランク。大学が入っていれば大卒、高校だけなら高卒 */
+function seekerEduRank(p){
+  p = p || state.profile;
+  if(p.univ && /大学院|研究科/.test(p.univ)) return 4;
+  if(p.univ && /専門|短期大学|短大/.test(p.univ)) return 2;
+  if(p.univ) return 3;
+  if(p.hs)   return 1;
+  return 0;
+}
+
+/* 企業の条件と求職者を突き合わせる。
+   返り値：{ok, fails:[{k,l,need,have}], wants:[{k,l,met}]} */
+function screenCheck(co, p){
+  p = p || state.profile;
+  const s = screenOf(co.id);
+  const age = seekerAge(p), er = seekerEduRank(p);
+  const fails = [], checks = [];
+
+  const push = (k, l, need, met)=>{
+    checks.push({k, l, need, met});
+    if(s.must.includes(k) && !met) fails.push({k, l, need});
+  };
+
+  if(s.edu) push('edu', '学歴', eduLabel(s.edu), er >= eduRank(s.edu));
+  if(s.ageMax) push('age', '年齢', `${s.ageMax}歳以下`, age > 0 && age <= s.ageMax);
+  if(s.gender !== 'na') push('gender', '性別', genderLabel(s.gender), p.gender === s.gender);
+  if(s.jobChangeMax) push('job', '転職回数', `${s.jobChangeMax}回以内`, (p.jobChanges||0) <= s.jobChangeMax);
+
+  const wants = (s.want||[]).filter(k=>SKILLS.some(x=>x.k===k))
+    .map(k=>({k, l:skillLabel(k), met:(p.skills||[]).includes(k)}));
+
+  return {ok:!fails.length, fails, checks, wants, s};
+}
+function screenPasses(co, p){ return state.screenOff ? true : screenCheck(co, p).ok; }
 
 /* ---------- 提携企業プール（人材紹介会社が保有する求人） ---------- */
 const COMPANIES = [
@@ -2147,7 +2373,12 @@ function blankProfile(){
       overseas:false,     // 海外勤務も希望する
       remote:false,       // リモート中心を希望する
       transfer:'ok'       // 転勤の可否
-    }
+    },
+    /* --- v2.5 --- 企業のスクリーニング条件との突合に使う項目 --- */
+    birthYear:'',       // 生年（西暦）。年齢はここから算出する
+    gender:'na',        // male / female / other / na（回答しない）
+    jobChanges:0,       // 転職回数
+    skills:[]           // 保有スキル
   };
 }
 function blankState(){
@@ -2203,7 +2434,19 @@ function blankState(){
     caSent:{},                      // candId -> [companyId]  CAが求職者に送った企業
     caPick:[],                      // 「企業を送る」タブで選択中の企業
     raShared:{},                    // companyId -> [caId]     RAがCAに共有した求人
-    raTab:'fill',                   // RAコンソールのタブ                        // プロフィール入力のステップ位置
+    raTab:'topic',                  // RAコンソールのタブ
+
+    /* --- v2.5 --- */
+    raTasks:[],                     // 人が起票したRAタスク {id, coId, from:'ca'|'seeker', by, text, ts, lv}
+    raDone:[],                      // 完了にしたタスクID（自動検知ぶんも含む）
+    raTaskDraft:'', raTaskCo:'', raTaskFrom:'ca',
+    kanri:null,                     // 管理くん連携の状態（デモ用）
+    calMonth:null,                  // マイページのカレンダーで表示中の月 'YYYY-MM'
+    calSel:null,                    // 選択中の日 'YYYY-MM-DD'
+    screens:{},                     // companyId -> 企業が上書きしたスクリーニング条件
+    screenEdit:null,                // 企業ポータルで条件を編集中の企業ID
+    screenOff:false,                // デモ用：条件による除外を一時的に切る
+
     menu:false,                     // アプリバーの「⋯」メニュー
     whyId:null,                     // 「なぜ合うのか」シートで開いている企業
     consentId:null,                 // 同意モーダルで対象にしている企業
@@ -3151,10 +3394,131 @@ function mypageHtml(){
 
     <div class="mytabs">
       <button class="${tab==='profile'?'on':''}" data-a="mytab" data-v="profile">プロフィール</button>
+      <button class="${tab==='cal'?'on':''}" data-a="mytab" data-v="cal">予定${calEvents().length?`<i></i>`:''}</button>
       <button class="${tab==='dm'?'on':''}" data-a="mytab" data-v="dm">DM${dmUnreadFor('live')?'<i></i>':''}</button>
       <button class="${tab==='prog'?'on':''}" data-a="mytab" data-v="prog">進捗</button>
     </div>
-    ${tab==='profile' ? myProfileTab(p,t) : tab==='dm' ? myDmTab() : myProgTab()}
+    ${tab==='profile' ? myProfileTab(p,t)
+      : tab==='cal'  ? myCalTab()
+      : tab==='dm'   ? myDmTab() : myProgTab()}
+  </div>`;
+}
+
+/* ---------------------------------------------------------------------------
+   v2.5 カレンダー
+   面談・面接・選考の期限が別々の画面に散っていると、求職者は自分のスケジュールを
+   把握できない。1つの月表示にまとめ、日を選ぶとその日の予定が出るようにする。
+--------------------------------------------------------------------------- */
+const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+
+/* 「8/24（月）」のようなラベルを実日付に戻す。年をまたぐ場合は翌年として扱う */
+function parseSlotDay(lab){
+  const m = String(lab||'').match(/(\d+)\/(\d+)/);
+  if(!m) return null;
+  const now = new Date();
+  let d = new Date(now.getFullYear(), parseInt(m[1],10)-1, parseInt(m[2],10));
+  if(d < new Date(now.getFullYear(), now.getMonth(), now.getDate()-1)) d.setFullYear(now.getFullYear()+1);
+  return d;
+}
+
+/* 表示する予定を1本のリストにまとめる。
+   ・CA面談：本人が予約した枠（state.schedules）
+   ・企業の面接：選考ステージが「面接調整中」以降の応募先
+   ・選考の期限：応募から企業のリードタイム日後を目安として置く */
+function calEvents(){
+  const out = [];
+  Object.keys(state.schedules||{}).forEach(id=>{
+    const s = state.schedules[id];
+    const d = parseSlotDay(s.day);
+    if(!d) return;
+    const co = (state.scored.find(c=>c.id===id) || COMPANIES.find(c=>c.id===id) || {});
+    out.push({date:ymd(d), kind:'ca', time:s.time, title:'担当CAとの面談',
+              sub:(co.name||'') + (s.ca?`　／　担当 ${s.ca}`:''), coId:id});
+  });
+  likedCompanies().forEach(c=>{
+    if(!hasConsent(c.id)) return;
+    const st = stageOf(c.id);
+    if(st < 2) return;
+    const base = new Date();
+    const off = 2 + (hash(c.id+'iv') % 12);           // 応募先ごとに散らす
+    const d = new Date(base.getFullYear(), base.getMonth(), base.getDate()+off);
+    if(d.getDay()===0) d.setDate(d.getDate()+1);
+    if(d.getDay()===6) d.setDate(d.getDate()+2);
+    const times = ['10:00〜11:00','13:00〜14:00','15:30〜16:30','18:00〜19:00'];
+    out.push({date:ymd(d), kind:'iv', time:times[hash(c.id)%4],
+              title:(STAGES[st]||'面接')+'（'+c.name+'）', sub:c.flow||'', coId:c.id});
+    const dl = new Date(base.getFullYear(), base.getMonth(), base.getDate()+off+(c.leadDays||21));
+    out.push({date:ymd(dl), kind:'dl', time:'', title:'選考結果の目安（'+c.name+'）',
+              sub:'応募から約'+(c.leadDays||21)+'日', coId:c.id});
+  });
+  return out.sort((a,b)=> a.date===b.date ? a.time.localeCompare(b.time) : a.date.localeCompare(b.date));
+}
+
+const CAL_KIND = {
+  ca:{l:'CA面談',   c:'var(--shu)'},
+  iv:{l:'面接',     c:'var(--ok)'},
+  dl:{l:'結果の目安', c:'var(--muted)'}
+};
+
+function myCalTab(){
+  const evs = calEvents();
+  const today = new Date();
+  const cur = state.calMonth || (today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0'));
+  const [cy, cm] = cur.split('-').map(Number);
+  const first = new Date(cy, cm-1, 1);
+  const days  = new Date(cy, cm, 0).getDate();
+  const lead  = first.getDay();
+  const sel   = state.calSel;
+  const byDay = {};
+  evs.forEach(e=>{ (byDay[e.date] = byDay[e.date] || []).push(e); });
+
+  const cells = [];
+  for(let i=0;i<lead;i++) cells.push('<div class="cal-c out"></div>');
+  for(let d=1;d<=days;d++){
+    const key = cy+'-'+String(cm).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const list = byDay[key] || [];
+    const isToday = key === ymd(today);
+    cells.push(`
+      <button class="cal-c ${isToday?'today':''} ${sel===key?'on':''} ${list.length?'has':''}"
+              data-a="cal-day" data-v="${key}">
+        <span class="cd">${d}</span>
+        <span class="cdots">${list.slice(0,3).map(e=>`<i style="background:${CAL_KIND[e.kind].c}"></i>`).join('')}</span>
+      </button>`);
+  }
+
+  const shown = sel ? (byDay[sel] || []) : evs.filter(e=>e.date >= ymd(today)).slice(0,6);
+  const wd = ['日','月','火','水','木','金','土'];
+
+  return `
+  <div class="calwrap">
+    <div class="cal-head">
+      <button class="cal-nav" data-a="cal-mv" data-v="-1" aria-label="前の月">←</button>
+      <div class="cal-title">${cy}年 ${cm}月</div>
+      <button class="cal-nav" data-a="cal-mv" data-v="1" aria-label="次の月">→</button>
+    </div>
+    <div class="cal-wd">${wd.map((w,i)=>`<span class="${i===0?'sun':i===6?'sat':''}">${w}</span>`).join('')}</div>
+    <div class="cal-grid">${cells.join('')}</div>
+    <div class="cal-legend">
+      ${Object.keys(CAL_KIND).map(k=>`<span><i style="background:${CAL_KIND[k].c}"></i>${CAL_KIND[k].l}</span>`).join('')}
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="bar"></span>${sel ? sel.replace(/-/g,'/') + ' の予定' : 'これからの予定'}</div>
+  ${shown.length ? shown.map(e=>`
+    <div class="evrow">
+      <span class="ek" style="background:${CAL_KIND[e.kind].c}"></span>
+      <div class="grow">
+        <div class="et">${esc(e.title)}</div>
+        <div class="es">${esc(e.date.replace(/-/g,'/'))}${e.time?'　'+esc(e.time):''}${e.sub?'　／　'+esc(e.sub):''}</div>
+      </div>
+      <span class="pill">${CAL_KIND[e.kind].l}</span>
+    </div>`).join('')
+  : `<div class="tc-empty">${sel?'この日の予定はありません。':'予定はまだありません。<br>企業に応募すると、面接や面談の予定がここに出ます。'}</div>`}
+  ${sel ? `<button class="link-btn mt-s" data-a="cal-day" data-v="">選択を解除してこれからの予定を見る</button>` : ''}
+
+  <div class="note info mt-m">
+    面接の日程は、企業が回答した候補から確定した時点でここに入ります。
+    <b>日程調整のメールを往復する必要はありません。</b>
   </div>`;
 }
 
@@ -4017,6 +4381,183 @@ function ratingStats(companyId){
   return c;
 }
 
+/* ---------------------------------------------------------------------------
+   v2.5 今日のトピック
+   RAが朝いちばんに見る画面。自動検知したものと、CAが上げてきた依頼を
+   1つのリストに統合する。求職者発の依頼は担当CAが代弁して起票するため、
+   「誰から上がったか」を行ごとに出す。完了を押すと消える。
+--------------------------------------------------------------------------- */
+function raTopics(raId){
+  const mine = COMPANIES.filter(c=>raOf(c.id)===raId);
+  const done = state.raDone || [];
+  const out = [];
+
+  // 自動検知
+  mine.forEach(c=>{
+    const x = companyStats(c.id);
+    if(x.applied === 0)
+      out.push({id:'auto:empty:'+c.id, lv:'danger', from:'sys', coId:c.id,
+                t:'応募がゼロ', d:'求人枠 '+x.open+'件に対して応募が入っていません。CAへの共有内容を見直してください。'});
+    else if(!raSharedTo(c.id).length && x.applied < 2)
+      out.push({id:'auto:share:'+c.id, lv:'warn', from:'sys', coId:c.id,
+                t:'CAに未共有', d:'この求人はまだどのCAにも共有されていません。'});
+    const r = ratingStats(c.id);
+    if(r.none >= 3)
+      out.push({id:'auto:rate:'+c.id, lv:'warn', from:'sys', coId:c.id,
+                t:'企業の評価が'+r.none+'件未回答', d:'候補者を送ったまま反応が返っていません。企業に催促してください。'});
+    if(x.open && x.fill < 30 && x.applied > 0)
+      out.push({id:'auto:fill:'+c.id, lv:'warn', from:'sys', coId:c.id,
+                t:'充足率 '+x.fill+'%', d:'求人枠 '+x.open+'件に対して決定が追いついていません。'});
+  });
+
+  // 人が起票したもの
+  (state.raTasks||[]).forEach(t=>{
+    if(raOf(t.coId) !== raId) return;
+    out.push({id:t.id, lv:t.lv||'warn', from:t.from, by:t.by, coId:t.coId, t:t.text, d:t.detail||''});
+  });
+
+  // danger を 0 にすると `||` のフォールバックに落ちるので 1 から振る
+  const rank = {danger:1, warn:2, info:3};
+  return out.filter(t=>!done.includes(t.id))
+            .sort((a,b)=>{
+              // 人からの依頼を自動検知より上に出す
+              if((a.from==='sys') !== (b.from==='sys')) return a.from==='sys' ? 1 : -1;
+              return (rank[a.lv]||9) - (rank[b.lv]||9);
+            });
+}
+const RA_FROM = {
+  sys:{l:'自動検知', c:'var(--muted)'},
+  ca:{l:'CAから',   c:'var(--info)'},
+  seeker:{l:'求職者から（CA経由）', c:'var(--shu)'}
+};
+
+function raTopicHtml(raId){
+  const list = raTopics(raId);
+  const mine = COMPANIES.filter(c=>raOf(c.id)===raId);
+  const open = state.raTaskOpen;
+  return `
+  <div class="panel mb-m topic-panel">
+    <div class="ph">
+      <div class="title-m">今日のトピック</div>
+      <div class="toolbar">
+        <span class="pill ${list.length?'warn':'ok'}">${list.length ? list.length+'件' : 'すべて完了'}</span>
+        <button class="btn sm ${open?'g':'s'}" data-a="ra-task-open">${open?'閉じる':'＋ 依頼を追加'}</button>
+      </div>
+    </div>
+
+    ${open ? `
+    <div class="pb tk-new">
+      <div class="tk-row">
+        <select class="input" style="max-width:230px" data-model="raTaskCo">
+          <option value="">企業を選ぶ</option>
+          ${mine.map(c=>`<option value="${c.id}" ${state.raTaskCo===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}
+        </select>
+        <div class="segmented">
+          <button class="${state.raTaskFrom!=='seeker'?'on':''}" data-a="ra-task-from" data-v="ca">CAから</button>
+          <button class="${state.raTaskFrom==='seeker'?'on':''}" data-a="ra-task-from" data-v="seeker">求職者から</button>
+        </div>
+      </div>
+      <div class="tk-row">
+        <input class="input grow" type="text" placeholder="例：面接枠を今週中に2つ増やしてほしい"
+               value="${esc(state.raTaskDraft||'')}" data-model="raTaskDraft">
+        <button class="btn p sm" data-a="ra-task-add" ${state.raTaskCo && (state.raTaskDraft||'').trim() ? '' : 'disabled'}>追加</button>
+      </div>
+      <div class="note gray" style="margin:8px 0 0">
+        求職者からの要望は、担当CAが内容を確認したうえでRAに上げます。
+        RAが求職者の個人情報に直接触れない形にするためです。
+      </div>
+    </div>` : ''}
+
+    <div class="pb" style="padding:0">
+      ${list.length ? list.map(t=>{
+        const co = coOf(t.coId) || {};
+        const f = RA_FROM[t.from] || RA_FROM.sys;
+        return `
+        <div class="tkrow ${t.lv}">
+          <div class="ti">${t.lv==='danger'?'!':t.from==='sys'?'△':'●'}</div>
+          <div class="grow">
+            <div class="tt">${esc(co.name||'')}　<span class="tx">${esc(t.t)}</span></div>
+            <div class="td">${esc(t.d)}</div>
+            <div class="tf" style="color:${f.c}">${esc(f.l)}${t.by?'　'+esc(t.by):''}</div>
+          </div>
+          <button class="btn sm g" data-a="ra-done" data-v="${esc(t.id)}">完了</button>
+        </div>`;
+      }).join('')
+      : `<div class="pb sub" style="text-align:center;padding:26px 16px">
+           未完了のタスクはありません。<br>
+           <span style="font-size:11.5px">CA・求職者から上がってきた依頼と、AIが検知した要対応事項がここに出ます。</span>
+         </div>`}
+    </div>
+  </div>`;
+}
+
+/* ---------------------------------------------------------------------------
+   v2.5 管理くん連携（デモ用）
+   実際のAPI通信は行わない。連携が成立している状態の画面と、同期を押したときの
+   挙動だけを再現する。本番ではAPIキーをブラウザに置けないため、
+   バックエンド経由の実装が必要になる。
+--------------------------------------------------------------------------- */
+function kanriState(){
+  if(!state.kanri){
+    state.kanri = {
+      linked:true,
+      endpoint:'https://api.kanri-kun.example.jp/v2',
+      key:'kk_live_9f2c••••••••••••3ba7',
+      lastSync:null,
+      jobs:0, updated:0, errors:0,
+      diff:[]
+    };
+  }
+  return state.kanri;
+}
+function raKanriHtml(mine){
+  const k = kanriState();
+  const total = mine.length;
+  return `
+  <div class="panel mb-m">
+    <div class="ph">
+      <div class="title-m">管理くん 連携</div>
+      <span class="pill ${k.linked?'ok':'warn'}">${k.linked?'接続済み':'未接続'}</span>
+    </div>
+    <div class="pb">
+      <div class="kn-grid">
+        <div class="kn-b"><div class="kl">接続先</div><div class="kv mono">${esc(k.endpoint)}</div></div>
+        <div class="kn-b"><div class="kl">APIキー</div><div class="kv mono">${esc(k.key)}</div></div>
+        <div class="kn-b"><div class="kl">最終同期</div><div class="kv">${k.lastSync ? esc(k.lastSync) : 'まだ同期していません'}</div></div>
+        <div class="kn-b"><div class="kl">同期対象</div><div class="kv">担当企業 ${total}社の求人</div></div>
+      </div>
+
+      <div class="kpis mt-m" style="grid-template-columns:repeat(3,1fr)">
+        <div class="kpi"><div class="strip" style="background:var(--info)"></div>
+          <div class="n">${k.jobs}</div><div class="l">取り込んだ求人</div></div>
+        <div class="kpi"><div class="strip" style="background:var(--brand)"></div>
+          <div class="n">${k.updated}</div><div class="l">更新された求人</div></div>
+        <div class="kpi ${k.errors?'alert':''}"><div class="strip" style="background:var(--warn)"></div>
+          <div class="n">${k.errors}</div><div class="l">取り込めなかった件数</div></div>
+      </div>
+
+      <button class="btn p mt-m" data-a="kanri-sync">今すぐ同期する</button>
+
+      ${k.diff.length ? `
+      <div class="sec-head mt-m"><span class="bar"></span>前回同期からの差分</div>
+      ${k.diff.map(d=>`
+        <div class="kn-d">
+          <span class="kd-t ${d.t}">${d.t==='new'?'新規':d.t==='upd'?'更新':d.t==='end'?'募集終了':'エラー'}</span>
+          <span class="grow">${esc(d.co)}</span>
+          <span class="sub">${esc(d.m)}</span>
+        </div>`).join('')}` : ''}
+
+      <div class="note warn mt-m">
+        <b>この画面はデモです。実際の通信は行っていません。</b>
+        本番では、APIキーをブラウザに置くと誰でも読めてしまうため、
+        サーバー側で管理くんのAPIを叩き、その結果をこの画面に返す構成が必要です。
+        連携仕様（認証方式・求人項目の対応表・同期頻度）は、
+        管理くん側のAPIドキュメントを確認したうえで確定します。
+      </div>
+    </div>
+  </div>`;
+}
+
 function raHtml(){
   const me = state.raSel || RA_LIST[0].id;
   const mine = COMPANIES.filter(c=>raOf(c.id)===me);
@@ -4026,7 +4567,7 @@ function raHtml(){
   const totalApp  = stats.reduce((s,x)=>s+x.applied,0);
   const empty     = stats.filter(x=>x.applied===0);
   const unshared  = stats.filter(x=>x.applied < 2 && !raSharedTo(x.co.id).length);
-  const tab = state.raTab || 'fill';
+  const tab = state.raTab || 'topic';
 
   return `
   <div class="ca-head">
@@ -4038,6 +4579,8 @@ function raHtml(){
       ${RA_LIST.map(r=>`<button class="ftab ${r.id===me?'on':''}" data-a="ra-sel" data-v="${r.id}">${esc(r.name)}</button>`).join('')}
     </div>
   </div>
+
+  ${raTopicHtml(me)}
 
   <div class="kpis">
     <div class="kpi"><div class="strip" style="background:var(--sumi)"></div>
@@ -4062,10 +4605,11 @@ function raHtml(){
     <button class="${tab==='share'?'on':''}" data-a="ra-tab" data-v="share">CAへの共有${unshared.length?`<span class="tab-badge">${unshared.length}</span>`:''}</button>
     <button class="${tab==='ca'?'on':''}" data-a="ra-tab" data-v="ca">CA別の送客</button>
     <button class="${tab==='fb'?'on':''}" data-a="ra-tab" data-v="fb">企業の反応</button>
+    <button class="${tab==='kanri'?'on':''}" data-a="ra-tab" data-v="kanri">管理くん連携</button>
   </div>
 
   ${tab==='fill' ? raFillHtml(stats) : tab==='share' ? raShareHtml(stats)
-    : tab==='ca' ? raCaHtml(mine) : raFbHtml(mine)}
+    : tab==='ca' ? raCaHtml(mine) : tab==='kanri' ? raKanriHtml(mine) : raFbHtml(mine)}
 
   <div class="note info mt-m">
     RAは<b>企業側</b>、CAは<b>求職者側</b>を担当します。両者は同じ案件（application）を
@@ -4271,6 +4815,98 @@ function defaultClientId(){
   COMPANIES.forEach(c=>{ const k = appsForCompany(c.id).length; if(k > n){ n = k; best = c.id; } });
   return best;
 }
+/* ---------------------------------------------------------------------------
+   v2.5 応募条件（スクリーニング）
+   企業がここで条件を設定すると、条件を満たさない求職者にはこの求人が提示されなくなる。
+   「必須」に入れた項目だけが足切りに使われ、「歓迎」は提示したうえで適合状況を出す。
+--------------------------------------------------------------------------- */
+function screenPanelHtml(co){
+  const s = screenOf(co.id);
+  const open = state.screenEdit === co.id;
+  const mustLabel = k => ({edu:'学歴', age:'年齢', gender:'性別', job:'転職回数'})[k] || k;
+  const set = [];
+  if(s.edu)             set.push({k:'edu',    l:'学歴',     v:eduLabel(s.edu)});
+  if(s.ageMax)          set.push({k:'age',    l:'年齢',     v:`${s.ageMax}歳以下`});
+  if(s.gender!=='na')   set.push({k:'gender', l:'性別',     v:genderLabel(s.gender)});
+  if(s.jobChangeMax)    set.push({k:'job',    l:'転職回数', v:`${s.jobChangeMax}回以内`});
+
+  return `
+  <div class="panel mb-m">
+    <div class="ph">
+      <div class="title-m">応募条件（スクリーニング）</div>
+      <button class="btn sm ${open?'g':'s'}" data-a="screen-edit" data-v="${co.id}">
+        ${open ? '閉じる' : '条件を編集'}
+      </button>
+    </div>
+    <div class="pb">
+      <div class="scr-set">
+        ${set.length ? set.map(x=>`
+          <span class="scr-chip ${s.must.includes(x.k)?'must':''}">
+            <b>${esc(x.l)}</b>${esc(x.v)}
+            <i>${s.must.includes(x.k)?'必須':'歓迎'}</i>
+          </span>`).join('')
+        : '<span class="sub">条件は設定されていません。すべての求職者に提示されます。</span>'}
+        ${(s.want||[]).filter(k=>SKILLS.some(x=>x.k===k)).map(k=>`
+          <span class="scr-chip"><b>スキル</b>${esc(skillLabel(k))}<i>歓迎</i></span>`).join('')}
+      </div>
+
+      ${open ? `
+      <div class="scr-edit">
+        <div class="scr-row">
+          <div class="scr-l">学歴</div>
+          <div class="scr-c">
+            <button class="chip sm ${!s.edu?'on':''}" data-a="scr" data-v="${co.id}|edu|">指定なし</button>
+            ${EDU_LEVELS.map(e=>`<button class="chip sm ${s.edu===e.k?'on':''}" data-a="scr" data-v="${co.id}|edu|${e.k}">${esc(e.l)}</button>`).join('')}
+          </div>
+          <button class="scr-m ${s.must.includes('edu')?'on':''}" data-a="scr-must" data-v="${co.id}|edu">必須</button>
+        </div>
+        <div class="scr-row">
+          <div class="scr-l">年齢</div>
+          <div class="scr-c">
+            <button class="chip sm ${!s.ageMax?'on':''}" data-a="scr" data-v="${co.id}|ageMax|0">指定なし</button>
+            ${[25,30,35,40,45,50].map(n=>`<button class="chip sm ${s.ageMax===n?'on':''}" data-a="scr" data-v="${co.id}|ageMax|${n}">${n}歳以下</button>`).join('')}
+          </div>
+          <button class="scr-m ${s.must.includes('age')?'on':''}" data-a="scr-must" data-v="${co.id}|age">必須</button>
+        </div>
+        <div class="scr-row">
+          <div class="scr-l">性別</div>
+          <div class="scr-c">
+            ${GENDERS.map(g=>`<button class="chip sm ${s.gender===g.k?'on':''}" data-a="scr" data-v="${co.id}|gender|${g.k}">${g.k==='na'?'指定なし':esc(g.l)}</button>`).join('')}
+          </div>
+          <button class="scr-m ${s.must.includes('gender')?'on':''}" data-a="scr-must" data-v="${co.id}|gender">必須</button>
+        </div>
+        <div class="scr-row">
+          <div class="scr-l">転職回数</div>
+          <div class="scr-c">
+            <button class="chip sm ${!s.jobChangeMax?'on':''}" data-a="scr" data-v="${co.id}|jobChangeMax|0">指定なし</button>
+            ${[1,2,3,4].map(n=>`<button class="chip sm ${s.jobChangeMax===n?'on':''}" data-a="scr" data-v="${co.id}|jobChangeMax|${n}">${n}回以内</button>`).join('')}
+          </div>
+          <button class="scr-m ${s.must.includes('job')?'on':''}" data-a="scr-must" data-v="${co.id}|job">必須</button>
+        </div>
+        <div class="scr-row">
+          <div class="scr-l">スキル・資格<br><span class="sub" style="font-size:10px">歓迎条件のみ</span></div>
+          <div class="scr-c">
+            ${SKILLS.map(k=>`<button class="chip sm ${(s.want||[]).includes(k.k)?'on':''}" data-a="scr-want" data-v="${co.id}|${k.k}">${esc(k.l)}</button>`).join('')}
+          </div>
+          <span></span>
+        </div>
+        <div class="note info mt-s">
+          <b>「必須」を押した項目だけが足切りに使われます。</b>
+          必須にした条件を満たさない求職者には、この求人がそもそも提示されません。
+          必須にしていない項目は、提示したうえで「適合状況」として求職者側に表示されます。
+        </div>
+      </div>` : `
+      <div class="note gray mt-s" style="margin-bottom:0">
+        <b>必須</b>にした条件を満たさない求職者には、この求人は提示されません。
+        <b>歓迎</b>は提示したうえで適合状況を表示します。
+        ${set.filter(x=>s.must.includes(x.k)).length
+          ? `現在の必須条件：<b>${set.filter(x=>s.must.includes(x.k)).map(x=>mustLabel(x.k)).join('・')}</b>`
+          : '現在、必須条件はありません。'}
+      </div>`}
+    </div>
+  </div>`;
+}
+
 function clientHtml(){
   const id = state.clientSel || defaultClientId();
   const co = coOf(id);
@@ -4314,6 +4950,8 @@ function clientHtml(){
     <div class="kpi"><div class="strip" style="background:var(--ok)"></div>
       <div class="n">${x.fill}<span style="font-size:12px">%</span></div><div class="l">充足率</div></div>
   </div>
+
+  ${screenPanelHtml(co)}
 
   <div class="panel">
     <div class="ph"><div class="title-m">応募候補者</div>
@@ -4658,6 +5296,7 @@ const PSTEPS = [
   {k:'name',  t:'はじめまして。<br>お名前を教えてください', s:'この時点では、担当のキャリアアドバイザーだけが見ます'},
   {k:'stage', t:'いまは<br>どんな状況ですか', s:'紹介する求人の種類が変わります'},
   {k:'edu',   t:'学歴を<br>教えてください', s:'企業への推薦時に添える情報です。マッチ度の計算には使いません'},
+  {k:'attr',  t:'応募条件の<br>照合に使う項目です', s:'企業が求人ごとに設定した条件と突き合わせます。条件に合わない求人は出しません'},
   {k:'trait', t:'あなたの強みを<br>選んでください', s:'最大4つまで。面接で話しやすいものを選ぶと、対策の精度が上がります'},
   {k:'val',   t:'仕事で大事に<br>したいことは', s:'最大3つまで。企業の社風との相性を見ます'},
   {k:'ind',   t:'気になる業界は<br>ありますか', s:'いくつでも選べます。絞りすぎないほうが出会いは増えます'},
@@ -4683,6 +5322,8 @@ function pstepReady(k){
   if(k==='val')   return p.vals.length>0;
   if(k==='ind')   return p.inds.length>0;
   if(k==='job')   return (p.jobs||[]).length>0;
+  // 年齢だけ必須。性別は「回答しない」が既定、転職回数は0が既定なので判定に含めない
+  if(k==='attr')  return !!p.birthYear;
   if(k==='work'){
     const w = p.work || {};
     // 「全国」「海外」「リモート」のいずれか、または県が1つ以上選ばれていれば先に進める
@@ -4729,6 +5370,46 @@ function pstepBodyHtml(k){
       それは学歴による選別そのものになるためです。<br>
       担当CAがあなたを理解するためと、応募先の企業へ推薦するときに添える情報として使います。
     </div>`;
+
+  /* v2.5 企業の応募条件と突き合わせるための項目 */
+  if(k==='attr'){
+    const y = new Date().getFullYear();
+    const years = [];
+    for(let n = y-18; n >= y-60; n--) years.push(String(n));
+    const age = seekerAge(p);
+    return `
+    <div class="pgroup">
+      <div class="plabel">生まれた年 ${age?`<span class="popt">現在 ${age}歳</span>`:''}</div>
+      <select class="mselect" id="f-by" data-model="birthYear">
+        <option value="">選択してください</option>
+        ${years.map(v=>`<option value="${v}" ${p.birthYear===v?'selected':''}>${v}年</option>`).join('')}
+      </select>
+    </div>
+    <div class="pgroup">
+      <div class="plabel">性別 <span class="popt skip">任意・「回答しない」で構いません</span></div>
+      <div class="chips big" id="grp-gender">
+        ${GENDERS.map(g=>`<button class="chip ${p.gender===g.k?'on':''}" data-a="pick-gender" data-v="${g.k}">${esc(g.l)}</button>`).join('')}
+      </div>
+    </div>
+    <div class="pgroup">
+      <div class="plabel">転職回数</div>
+      <div class="chips big" id="grp-jc">
+        ${[0,1,2,3,4,5].map(n=>`<button class="chip ${(p.jobChanges||0)===n?'on':''}" data-a="pick-jc" data-v="${n}">${n===5?'5回以上':n+'回'}</button>`).join('')}
+      </div>
+    </div>
+    <div class="pgroup">
+      <div class="plabel">持っているスキル・資格 <span class="popt">いくつでも</span></div>
+      <div class="chips big" id="grp-skill">
+        ${SKILLS.map(s=>`<button class="chip ${(p.skills||[]).includes(s.k)?'on':''}" data-a="pick-skill" data-v="${s.k}">${esc(s.l)}</button>`).join('')}
+      </div>
+    </div>
+    <div class="pnote">
+      ここで入力した内容は、<b>企業側が求人ごとに設定している応募条件</b>との照合に使います。
+      条件を満たさない求人は、はじめから提示されません。
+      「受けられない求人を受けて落ちる」時間をなくすためのものです。<br>
+      性別は<b>「回答しない」のままでも先に進めます</b>。
+    </div>`;
+  }
 
   if(k==='job'){
     return `<div class="pcount" id="cnt-job">選んだ職種 ${(p.jobs||[]).length}件</div>
@@ -4956,6 +5637,32 @@ function cardHtml(c, depth){
   </div>`;
 }
 
+/* v2.5 この求人の応募条件と、自分がそれを満たしているか。
+   必須条件を満たさない求人はそもそもデッキに出ないので、ここに出るのは
+   「必須は満たしている／歓迎はまだ」という状態が中心になる。 */
+function screenFitHtml(c){
+  const r = screenCheck(c, state.profile);
+  const rows = r.checks.concat(r.wants.map(w=>({k:w.k, l:'スキル', need:w.l, met:w.met})));
+  if(!rows.length) return '';
+  const s = r.s;
+  const isMust = k => (s.must||[]).includes(k);
+  return `
+    <div class="sh-k">この求人の応募条件</div>
+    <div class="fitlist">
+      ${rows.map(x=>`
+        <div class="fitrow ${x.met?'ok':'no'}">
+          <span class="fi">${x.met?'✓':'—'}</span>
+          <span class="fl">${esc(x.l)}</span>
+          <span class="fv">${esc(x.need)}</span>
+          <span class="fb ${isMust(x.k)?'must':''}">${isMust(x.k)?'必須':'歓迎'}</span>
+        </div>`).join('')}
+    </div>
+    <div class="sh-note2">
+      必須条件を満たさない求人は、はじめから提示していません。
+      ここに出ている求人は、<b>少なくとも必須条件は満たしています</b>。
+    </div>`;
+}
+
 /* 「なぜ合うのか」のボトムシート。カード表面から追い出した説明を、ここで全部見せる。 */
 function whySheetHtml(){
   const c = state.scored.find(x=>x.id===state.whyId);
@@ -4987,6 +5694,7 @@ function whySheetHtml(){
       </div>
       ${concerns.length?`<div class="sh-k">気をつける点</div>
         <div class="sh-warn">${concerns.map(x=>'・'+esc(x)).join('<br>')}</div>`:''}
+      ${screenFitHtml(c)}
       <div class="sh-k">この会社について</div>
       <div class="sh-desc">${esc(c.desc)}</div>
       <div class="ctags mt-s">${c.culture.map(t=>`<span class="ctag">${esc(t)}</span>`).join('')}</div>
@@ -5003,11 +5711,16 @@ function deckInnerHtml(){
 }
 function swipeHtml(){
   const list = state.scored, i = state.idx;
+  const out = screenedOutCount();
   return `
   <div class="deck-head">
     <div class="deck-prog">${Math.min(i+1,list.length)} <span>/ ${list.length}</span></div>
     <button class="deck-liked" data-a="skip-to-liked">気になる ${state.liked.length}</button>
   </div>
+  ${out ? `<div class="scr-out">
+    企業側の<b>必須の応募条件</b>に合わない ${out}社は、はじめから出していません。
+    受けても通らない求人に時間を使わないためです。
+  </div>` : ''}
   <div class="deck-area">
     <div class="deck" id="deck">${deckInnerHtml()}</div>
     <div class="deck-actions">
@@ -5999,8 +6712,12 @@ const TOUR = [
   {t:'⑩ CAが企業を送る', b:'AIに任せきりにはしません。求職者の行をクリックして「企業を送る」タブを開くと、AIスコア順に並んだ企業を複数選んでまとめて送れます。送った企業は求職者のカードに「担当CAからのおすすめ」として最優先で出てきます。一度スキップされた企業でも、CAが送れば必ずもう一度本人の目に触れます。'},
   {t:'⑪ 注力リストをCAにも共有', b:'求職者本人のマイページに出ている「注力リスト」を、CA側でも同じ順位で見られます。本人がどこを本命だと思っているかが分かった状態で面談に入れるため、「まずどこから聞くか」を探る時間が要りません。'},
   {t:'⑫ RAコンソール', b:'RA（企業側担当）の画面です。求人の充足状況、CAへの求人共有、CA別の送客実績、企業からの評価が1画面にまとまります。RAが共有した求人はCAコンソールに「RAからの共有求人」として即座に届き、企業とCAの間の連絡が仕組みの中で完結します。'},
-  {t:'⑬ 売上達成率', b:'CAごと・チーム全体の達成率をグラフで可視化します。月初はMTDが小さく出るため、着地見込を主指標にしています。'},
-  {t:'⑭ 導入効果シミュレーション', b:'クロージングはここです。相手の会社の数値をその場で入力すると、削減工数と増加粗利、投資回収月数が即座に出ます。'}
+  {t:'⑬ 今日のトピック', b:'RA画面の最上部です。AIが検知した要対応事項と、CA・求職者から上がってきた依頼が1つのリストに並びます。求職者からの要望は担当CAが内容を確認したうえで上げるため、RAは求職者の個人情報に直接触れません。完了を押すと消えるので、残っているものがそのまま「今日やること」になります。'},
+  {t:'⑭ 管理くん連携', b:'既存の基幹システムから求人を取り込む画面です。前回同期からの差分（新規・更新・募集終了）が出るので、二重入力が不要になります。この画面はデモで、実際の通信は行っていません。本番ではAPIキーをブラウザに置けないため、サーバー側で叩く構成になります。'},
+  {t:'⑮ カレンダー', b:'求職者のマイページです。CA面談・企業の面接・選考結果の目安を1つの月表示にまとめました。日程調整のメールを往復する必要がなくなり、CAの「今どうなっていますか」という確認連絡も減ります。'},
+  {t:'⑯ 企業の応募条件', b:'企業ポータルで、学歴・年齢・性別・転職回数・スキルの条件を設定できます。「必須」にした条件を満たさない求職者には、その求人がそもそも提示されません。受けても通らない求人に応募が集まる状態をなくすための機能です。求職者側では、なぜその求人が出ているかを「応募条件」の適合表として確認できます。'},
+  {t:'⑰ 売上達成率', b:'CAごと・チーム全体の達成率をグラフで可視化します。月初はMTDが小さく出るため、着地見込を主指標にしています。'},
+  {t:'⑱ 導入効果シミュレーション', b:'クロージングはここです。相手の会社の数値をその場で入力すると、削減工数と増加粗利、投資回収月数が即座に出ます。'}
 ];
 function tourHtml(){
   const i = state.tour;
@@ -6080,11 +6797,20 @@ function submitProfile(){
   startAnalyze();
 }
 
+/* v2.5 企業が指定した必須条件を満たさない企業は、デッキそのものに出さない。
+   「出したのに落ちる」体験を作らないための足切り。何社落ちたかは画面に出す。
+   担当CAが直接送った企業は、CAが判断したものなので足切りの対象外。 */
+function screenedCompanies(){
+  const sent = caSentTo('live');
+  return COMPANIES.filter(c => sent.includes(c.id) || screenPasses(c, state.profile));
+}
+function screenedOutCount(){ return COMPANIES.length - screenedCompanies().length; }
+
 /* スコア順に並べたうえで、担当CAが送ってきた企業を先頭に上げる。
    CAが「この子にはこれ」と選んだものを、AIのスコアより優先して見せる。 */
 function sortedScored(){
   const sent = caSentTo('live');
-  return COMPANIES.map(c=>{
+  return screenedCompanies().map(c=>{
     const r = scoreCompany(c, state.profile);
     return Object.assign({}, c, {score:r.score, factors:r.factors, fromCa: sent.includes(c.id)});
   }).sort((a,b)=>{
@@ -6379,9 +7105,14 @@ function loadDemoData(){
     univ:'◯◯大学 情報理工学部',
     gradYear:String(new Date().getFullYear() - 3),
     jobs:['eng','plan'],
-    work:{nationwide:false, prefs:['東京都','神奈川県'], overseas:false, remote:true, transfer:'ok'}
+    work:{nationwide:false, prefs:['東京都','神奈川県'], overseas:false, remote:true, transfer:'ok'},
+    /* v2.5 応募条件の照合に使う項目 */
+    birthYear:String(new Date().getFullYear() - 26),
+    gender:'na',
+    jobChanges:1,
+    skills:['pg','toeic','driver']
   };
-  state.scored = COMPANIES.map(c=>{
+  state.scored = screenedCompanies().map(c=>{
     const r = scoreCompany(c, state.profile);
     return Object.assign({}, c, {score:r.score, factors:r.factors});
   }).sort((a,b)=>b.score-a.score);
@@ -6437,6 +7168,39 @@ function loadDemoData(){
    '応募（情報提供に同意）：'+state.scored[0].name,
    '面接ログを投稿：'+state.scored[0].name,
    'CA面談を予約','担当CAにメッセージを送信'].forEach(t=>logActivity(t));
+
+  /* v2.5 RAの「今日のトピック」に、人から上がってきた依頼を入れておく。
+     自動検知ぶんは raTopics() が毎回その場で作るので、ここでは起票分だけ。 */
+  const raCos = COMPANIES.filter(c=>raOf(c.id)===RA_LIST[0].id);
+  const pick = n => raCos[n % Math.max(raCos.length,1)];
+  if(raCos.length){
+    state.raTasks = [
+      {id:'t-seed-1', coId:pick(0).id, from:'ca', lv:'danger', by:CA_LIST[0].name,
+       text:'来週の面接枠を2つ増やせないか確認してほしい',
+       detail:'第一志望の候補者が2名重なっており、現状の枠では両方を通せません。', ts:Date.now()},
+      {id:'t-seed-2', coId:pick(1).id, from:'seeker', lv:'warn', by:CA_LIST[1].name+' が代弁',
+       text:'配属部署を面接前に知りたいと候補者から要望',
+       detail:'求職者本人からの質問を、担当CAが内容を確認したうえで上げています。', ts:Date.now()},
+      {id:'t-seed-3', coId:pick(2).id, from:'ca', lv:'warn', by:CA_LIST[2].name,
+       text:'想定年収のレンジが求人票と面接での説明で食い違っている',
+       detail:'候補者に伝える金額を確定させてください。', ts:Date.now()}
+    ];
+  }
+  /* 管理くん連携は「同期済み」の状態にしておく */
+  state.kanri = null;
+  kanriState();
+  const kd = new Date(Date.now() - 2*3600*1000);   // 2時間前に同期済み、という状態
+  state.kanri.lastSync = (kd.getMonth()+1)+'/'+kd.getDate()+' '+
+    String(kd.getHours()).padStart(2,'0')+':'+String(kd.getMinutes()).padStart(2,'0');
+  state.kanri.jobs    = COMPANIES.reduce((s,c)=>s+companyStats(c.id).open, 0);
+  state.kanri.updated = 4;
+  state.kanri.errors  = 1;
+  if(raCos.length) state.kanri.diff = [
+    {t:'new', co:pick(0).name, m:'求人2件を新規に取り込みました'},
+    {t:'upd', co:pick(1).name, m:'想定年収と勤務地が更新されました'},
+    {t:'end', co:pick(2).name, m:'1件が募集終了になりました'},
+    {t:'err', co:pick(3).name, m:'職種コードが対応表にありません'}
+  ];
 
   state.mode='seeker'; state.step='mypage'; state.myTab='prog'; state.modal=null;
   render(); scrollTop();
@@ -6503,6 +7267,42 @@ function bindApp(){
       case 'ind':         toggleIn(state.profile.inds,v,0); refreshChips('ind'); break;
       case 'job':         toggleIn(state.profile.jobs,v,0); refreshChips('job'); break;
       case 'region':      state.openRegion = (state.openRegion===v ? null : v); render(); break;
+      /* v2.5 応募条件の照合に使う項目 */
+      case 'pick-gender': state.profile.gender = v; render(); break;
+      case 'pick-jc':     state.profile.jobChanges = parseInt(v,10)||0; render(); break;
+      case 'pick-skill':  toggleIn(state.profile.skills, v, 0); render(); break;
+
+      /* v2.5 企業ポータル：応募条件の編集 */
+      case 'screen-edit': state.screenEdit = (state.screenEdit===v ? null : v); render(); break;
+      case 'scr': {
+        const [cid, key, val] = v.split('|');
+        const cur = screenOf(cid);
+        const next = Object.assign({}, cur);
+        next[key] = (key==='edu' || key==='gender') ? val : (parseInt(val,10)||0);
+        state.screens[cid] = next;
+        refreshScored(); render();
+        break;
+      }
+      case 'scr-must': {
+        const [cid, key] = v.split('|');
+        const cur = screenOf(cid);
+        const must = (cur.must||[]).slice();
+        const i = must.indexOf(key);
+        if(i<0) must.push(key); else must.splice(i,1);
+        state.screens[cid] = Object.assign({}, cur, {must});
+        refreshScored(); render();
+        break;
+      }
+      case 'scr-want': {
+        const [cid, key] = v.split('|');
+        const cur = screenOf(cid);
+        const want = (cur.want||[]).slice();
+        const i = want.indexOf(key);
+        if(i<0) want.push(key); else want.splice(i,1);
+        state.screens[cid] = Object.assign({}, cur, {want});
+        render();
+        break;
+      }
       case 'pref': {
         const w = state.profile.work;
         toggleIn(w.prefs, v, 0);
@@ -6535,6 +7335,17 @@ function bindApp(){
       case 'undo':        undoSwipe(); break;
       case 'nav':         goNav(v); break;
       case 'mytab':       state.myTab=v; render(); break;
+      /* v2.5 カレンダー */
+      case 'cal-day':     state.calSel = v || null; render(); break;
+      case 'cal-mv': {
+        const t = new Date();
+        const cur = state.calMonth || (t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0'));
+        const [y,m] = cur.split('-').map(Number);
+        const d = new Date(y, m-1+parseInt(v,10), 1);
+        state.calMonth = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+        render();
+        break;
+      }
       case 'dm-send':     sendDm(); break;
       case 'stage-up':    setStage(v, stageOf(v)+1); render(); toast(STAGES[stageOf(v)]+'に更新しました'); break;
       case 'stage-dn':    setStage(v, stageOf(v)-1); render(); break;
@@ -6565,6 +7376,50 @@ function bindApp(){
       case 'ca-unsend':   caUnsend(el.dataset.cand, v); break;
       case 'ra-tab':      state.raTab = v; render(); break;
       case 'ra-share':    raShare(v); break;
+
+      /* v2.5 今日のトピック */
+      case 'ra-done': {
+        if(!state.raDone.includes(v)) state.raDone.push(v);
+        // 人が起票したタスクは実体ごと消す
+        state.raTasks = (state.raTasks||[]).filter(t=>t.id!==v);
+        render(); toast('完了にしました');
+        break;
+      }
+      case 'ra-task-open': state.raTaskOpen = !state.raTaskOpen; render(); break;
+      case 'ra-task-from': state.raTaskFrom = v; render(); break;
+      case 'ra-task-add': {
+        const text = (state.raTaskDraft||'').trim();
+        if(!state.raTaskCo || !text) break;
+        const from = state.raTaskFrom==='seeker' ? 'seeker' : 'ca';
+        const ca = CA_LIST[hash(state.raTaskCo) % CA_LIST.length];
+        state.raTasks.push({
+          id:'t'+Date.now(), coId:state.raTaskCo, from, lv:'warn',
+          by:(ca?ca.name:'')+(from==='seeker'?' が代弁':''),
+          text, detail:'', ts:Date.now()
+        });
+        state.raTaskDraft=''; state.raTaskCo='';
+        render(); toast('トピックに追加しました');
+        break;
+      }
+      /* v2.5 管理くん連携（デモ） */
+      case 'kanri-sync': {
+        const k = kanriState();
+        const mine = COMPANIES.filter(c=>raOf(c.id)===(state.raSel||RA_LIST[0].id));
+        const now = new Date();
+        k.lastSync = (now.getMonth()+1)+'/'+now.getDate()+' '+
+                     String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+        k.jobs    = mine.reduce((s,c)=>s+companyStats(c.id).open, 0);
+        k.updated = Math.min(mine.length, 2 + (hash(k.lastSync)%3));
+        k.errors  = hash(k.lastSync+'e')%2;
+        const pick = n => mine[hash(k.lastSync+n) % Math.max(mine.length,1)];
+        k.diff = [];
+        if(pick(1)) k.diff.push({t:'new', co:pick(1).name, m:'求人2件を新規に取り込みました'});
+        if(pick(2)) k.diff.push({t:'upd', co:pick(2).name, m:'想定年収と勤務地が更新されました'});
+        if(pick(3)) k.diff.push({t:'end', co:pick(3).name, m:'1件が募集終了になりました'});
+        if(k.errors && pick(4)) k.diff.push({t:'err', co:pick(4).name, m:'職種コードが対応表にありません'});
+        render(); toast('管理くんと同期しました（デモ）');
+        break;
+      }
       case 'ca-dm-quick': state.caDmDraft=v; renderLayer();
                           { const i=document.getElementById('ca-dm-input'); if(i){i.focus();} } break;
       case 'add-log':     state.modal='log'; state.logNg=[];
@@ -6593,7 +7448,7 @@ function bindApp(){
     const t = e.target;
     if(t.dataset.model){
       const k = t.dataset.model;
-      if(k==='hs' || k==='univ' || k==='gradYear'){
+      if(k==='hs' || k==='univ' || k==='gradYear' || k==='birthYear'){
         state.profile[k] = t.value;
         save();
         return;
@@ -6613,6 +7468,12 @@ function bindApp(){
         }
       }
       else if(k==='caQuery'){ state.caQuery = t.value; renderCaTableOnly(); }
+      else if(k==='raTaskDraft'){
+        state.raTaskDraft = t.value;
+        // カーソルを飛ばさないよう、「追加」ボタンの活性だけを直接切り替える
+        const b = document.querySelector('[data-a="ra-task-add"]');
+        if(b) b.disabled = !(state.raTaskCo && t.value.trim());
+      }
       else { state[k] = t.value; if(k==='brandName'||k==='clientName') updateBrandOnly(); }
       save();
       return;
@@ -6644,6 +7505,9 @@ function bindApp(){
   document.addEventListener('change', e=>{
     const t = e.target;
     if(t.dataset.model==='gradYear'){ state.profile.gradYear = t.value; save(); }
+    if(t.dataset.model==='birthYear'){ state.profile.birthYear = t.value; render(); save(); }
+    // 企業を選ぶと「追加」ボタンの活性が変わるため、選択時点で描き直す
+    if(t.dataset.model==='raTaskCo'){ state.raTaskCo = t.value; render(); save(); }
     if(t.dataset.logform){ state.logForm = state.logForm||{}; state.logForm[t.dataset.logform] = t.value; }
     if(t.dataset.logformCheck){
       state.logForm = state.logForm||{};
