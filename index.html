@@ -725,7 +725,7 @@ table.tbl tr.tr-row.live:hover{background:#fffbe8;}
   .roi-out{grid-template-columns:1fr;}
   .appbar{padding:10px 12px;}
   .brand .btag{display:none;}
-  .stage.ca{padding:16px 12px 70px;}
+  .stage.ca{padding:0;}
   table.tbl .hide-sm{display:none;}
 }
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
@@ -2080,6 +2080,78 @@ tr.warn-row td{background:var(--warn-bg);}
 .fitrow .fb.must{background:var(--shu);color:#fff;}
 .sh-note2{font-size:11px;color:var(--muted);line-height:1.8;margin-top:8px;}
 
+
+/* ============================================================
+   v2.7 — 管理画面のシェル（ダークなサイドバー ＋ 明るいコンテンツ）
+============================================================ */
+/* .stage.ca の余白はシェルが自前で持つので打ち消す。サイドバーを画面端まで届かせる */
+.stage.ca{padding:0;display:block;}
+.adm{display:flex;align-items:stretch;min-height:calc(100vh - 58px);}
+
+/* --- サイドバー --- */
+.adm-side{
+  flex:none;width:224px;background:#1A1F2E;color:#C7CEDB;
+  display:flex;flex-direction:column;
+  position:sticky;top:58px;align-self:flex-start;height:calc(100vh - 58px);overflow-y:auto;
+}
+.as-user{padding:24px 18px 18px;text-align:center;border-bottom:1px solid rgba(255,255,255,.07);}
+.as-user .av{margin:0 auto 10px;box-shadow:0 0 0 3px rgba(255,255,255,.10);}
+.as-user .au-n{font-size:13px;font-weight:700;color:#EEF1F7;letter-spacing:.02em;}
+.as-user .au-r{font-size:10.5px;color:#7E8AA0;margin-top:3px;line-height:1.6;}
+.as-lab{
+  font-size:9.5px;font-weight:700;letter-spacing:.18em;color:#5F6B80;
+  padding:20px 18px 8px;text-transform:uppercase;
+}
+.as-nav{display:flex;flex-direction:column;}
+.as-i{
+  display:flex;align-items:center;gap:11px;width:100%;
+  background:transparent;border:none;border-left:3px solid transparent;
+  padding:11px 18px;cursor:pointer;text-align:left;
+  font-family:inherit;font-size:12.5px;font-weight:600;color:#AFB9CA;
+}
+.as-i:hover{background:rgba(255,255,255,.045);color:#EEF1F7;}
+.as-i.on{background:rgba(255,255,255,.07);border-left-color:var(--brand);color:#fff;}
+.as-i .ai{
+  width:18px;flex:none;text-align:center;font-size:13px;color:#7E8AA0;
+}
+.as-i.on .ai{color:var(--brand-300);}
+.as-i .al{flex:1;min-width:0;}
+.as-i .ab{
+  flex:none;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:var(--r-pill);
+  background:var(--brand);color:#fff;
+}
+.as-i .ab.tag{background:rgba(255,255,255,.12);color:#AFB9CA;}
+.as-foot{margin-top:auto;padding:16px 0 20px;border-top:1px solid rgba(255,255,255,.07);}
+.as-foot .af-k{
+  font-size:9.5px;font-weight:700;letter-spacing:.18em;color:#5F6B80;padding:4px 18px 6px;
+}
+.as-i.sm{font-size:11.5px;padding:8px 18px;font-weight:600;}
+
+/* --- コンテンツ側 --- */
+.adm-main{flex:1;min-width:0;background:var(--bg);}
+.adm-top{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:0 26px;height:58px;background:var(--surface);border-bottom:1px solid var(--line);
+  position:sticky;top:58px;z-index:5;
+}
+.adm-top .at-t{font-size:16px;font-weight:700;letter-spacing:.02em;color:var(--ink);}
+.adm-top .at-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.adm-main .wrap{max-width:none;padding:22px 26px 60px;}
+
+@media(max-width:900px){
+  .adm{flex-direction:column;}
+  .adm-side{
+    width:100%;height:auto;position:static;flex-direction:row;overflow-x:auto;
+    align-items:center;gap:4px;padding:0 8px;
+  }
+  .as-user,.as-lab,.as-foot{display:none;}
+  .as-nav{flex-direction:row;}
+  .as-i{white-space:nowrap;border-left:none;border-bottom:3px solid transparent;padding:14px 12px;}
+  .as-i.on{border-left:none;border-bottom-color:var(--brand);}
+  .adm-top{position:static;padding:0 16px;}
+  .adm-main .wrap{padding:16px 14px 50px;}
+}
+
 @media(max-width:620px){
   .scr-row{flex-wrap:wrap;}
   .scr-l{width:100%;padding-top:0;}
@@ -2110,7 +2182,7 @@ tr.warn-row td{background:var(--warn-bg);}
    （このリポジトリには含まない）。
 ============================================================================ */
 
-const APP_VERSION = '2.6';
+const APP_VERSION = '2.7';
 const STORAGE_KEY = 'swipeca_demo_v2';
 
 /* ---------- マスタ ---------- */
@@ -2582,6 +2654,7 @@ function blankState(){
     screens:{},                     // companyId -> 企業が上書きしたスクリーニング条件
     screenEdit:null,                // 企業ポータルで条件を編集中の企業ID
     screenOff:false,                // デモ用：条件による除外を一時的に切る
+    admPage:{},                     // v2.7 管理画面のロールごとに開いているページ
 
     menu:false,                     // アプリバーの「⋯」メニュー
     whyId:null,                     // 「なぜ合うのか」シートで開いている企業
@@ -4370,7 +4443,9 @@ function compareBarSvg(a, b){
    DESIGN_NOTES：「CA画面の集計を足し上げただけの画面は経営に使われない」
    → 見るのは ①ばらつき ②ファネル ③回転率 ④AI推薦の効果
 --------------------------------------------------------------------------- */
-function execHtml(){
+/* 経営ダッシュボード。概要と生産性のばらつきをページに分けた（v2.7） */
+function execPageHtml(page){
+
   const t = execTotals();
   const src = sourceStats();
   const prod = caProductivity();
@@ -4380,7 +4455,40 @@ function execHtml(){
   const teamT = sales.reduce((s,x)=>s+x.current.target,0);
   const lift = src.ca.rate ? Math.round((src.ai.rate/src.ca.rate - 1)*100) : 0;
 
+  if(page==='prod') return `
+  <div class="panel mt-m">
+    <div class="ph"><div>
+      <div class="title-m">CA別の生産性のばらつき</div>
+      <div class="sub" style="font-size:11.5px">平均ではなく分散を見る。ばらつきが小さいほど、組織として再現性がある</div>
+    </div></div>
+    <div class="pb">
+      ${dotPlotSvg(prod.rows, prod.mean, prod.sd)}
+      <div class="note gray mt-s">直近6ヶ月の完了案件 ${t.histN}件を母数としたサンプル値です。</div>
+      <table class="tbl mt-m">
+        <thead><tr><th>CA</th><th>担当求職者</th><th>案件</th><th>成約</th><th>成約率</th><th class="hide-sm">売上</th></tr></thead>
+        <tbody>
+          ${prod.rows.slice().sort((a,b)=>b.rate-a.rate).map(r=>`
+            <tr class="tr-row">
+              <td><div class="tname">${personAvatar(r.ca.name,30)}<div><div class="nm">${esc(r.ca.name)}</div><div class="sb">${esc(r.ca.role)}</div></div></div></td>
+              <td class="tnum">${r.cands}名</td>
+              <td class="tnum">${r.apps}件</td>
+              <td class="tnum">${r.won}件</td>
+              <td><span class="rate ${r.rate>=prod.mean?'ok':'bad'}">${r.rate}%</span></td>
+              <td class="hide-sm tnum">${nfmt(r.rev)}万</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="note info mt-m">
+        <b>この画面の使い方</b><br>
+        上位CAと下位CAの差が、そのまま「仕組みで埋められる余地」です。
+        CAコンソールの「あなたの動き方」タブで、下位CAに具体的な差分と次の行動を提示しています。
+      </div>
+    </div>
+  </div>
+  <div class="note gray mt-m">※ すべてダミーデータです。本番では成約管理・基幹システムから取り込みます。</div>`;
+
   return `
+
   <div class="ca-head">
     <div>
       <h1 class="title-xl">経営ダッシュボード</h1>
@@ -4442,40 +4550,8 @@ function execHtml(){
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="panel mt-m">
-    <div class="ph"><div>
-      <div class="title-m">CA別の生産性のばらつき</div>
-      <div class="sub" style="font-size:11.5px">平均ではなく分散を見る。ばらつきが小さいほど、組織として再現性がある</div>
-    </div></div>
-    <div class="pb">
-      ${dotPlotSvg(prod.rows, prod.mean, prod.sd)}
-      <div class="note gray mt-s">直近6ヶ月の完了案件 ${t.histN}件を母数としたサンプル値です。</div>
-      <table class="tbl mt-m">
-        <thead><tr><th>CA</th><th>担当求職者</th><th>案件</th><th>成約</th><th>成約率</th><th class="hide-sm">売上</th></tr></thead>
-        <tbody>
-          ${prod.rows.slice().sort((a,b)=>b.rate-a.rate).map(r=>`
-            <tr class="tr-row">
-              <td><div class="tname">${personAvatar(r.ca.name,30)}<div><div class="nm">${esc(r.ca.name)}</div><div class="sb">${esc(r.ca.role)}</div></div></div></td>
-              <td class="tnum">${r.cands}名</td>
-              <td class="tnum">${r.apps}件</td>
-              <td class="tnum">${r.won}件</td>
-              <td><span class="rate ${r.rate>=prod.mean?'ok':'bad'}">${r.rate}%</span></td>
-              <td class="hide-sm tnum">${nfmt(r.rev)}万</td>
-            </tr>`).join('')}
-        </tbody>
-      </table>
-      <div class="note info mt-m">
-        <b>この画面の使い方</b><br>
-        上位CAと下位CAの差が、そのまま「仕組みで埋められる余地」です。
-        CAコンソールの「あなたの動き方」タブで、下位CAに具体的な差分と次の行動を提示しています。
-      </div>
-    </div>
-  </div>
-  <div class="note gray mt-m">※ すべてダミーデータです。本番では成約管理・基幹システムから取り込みます。</div>`;
+  </div>`;
 }
-
 /* ---------------------------------------------------------------------------
    RA（企業担当）コンソール
 --------------------------------------------------------------------------- */
@@ -4694,7 +4770,8 @@ function raKanriHtml(mine){
   </div>`;
 }
 
-function raHtml(){
+/* RAコンソール。タブだったものをサイドバーのページにした（v2.7） */
+function raPageHtml(page){
   const me = state.raSel || RA_LIST[0].id;
   const mine = COMPANIES.filter(c=>raOf(c.id)===me);
   const stats = mine.map(c=>companyStats(c.id));
@@ -4703,22 +4780,9 @@ function raHtml(){
   const totalApp  = stats.reduce((s,x)=>s+x.applied,0);
   const empty     = stats.filter(x=>x.applied===0);
   const unshared  = stats.filter(x=>x.applied < 2 && !raSharedTo(x.co.id).length);
-  const tab = state.raTab || 'topic';
 
-  return `
-  <div class="ca-head">
-    <div>
-      <h1 class="title-xl">RAコンソール</h1>
-      <p class="sub mt-s">担当企業の求人をCAに届け、企業の反応をCAに返すのがRAの仕事です。</p>
-    </div>
-    <div class="toolbar">
-      ${RA_LIST.map(r=>`<button class="ftab ${r.id===me?'on':''}" data-a="ra-sel" data-v="${r.id}">${esc(r.name)}</button>`).join('')}
-    </div>
-  </div>
-
-  ${raTopicHtml(me)}
-
-  <div class="kpis">
+  const kpis = `
+  <div class="kpis mb-m">
     <div class="kpi"><div class="strip" style="background:var(--sumi)"></div>
       <div class="n">${mine.length}</div><div class="l">担当企業</div></div>
     <div class="kpi"><div class="strip" style="background:var(--info)"></div>
@@ -4729,30 +4793,23 @@ function raHtml(){
       <div class="n">${totalWon}</div><div class="l">決定</div></div>
     <div class="kpi ${unshared.length?'alert':''}"><div class="strip" style="background:var(--shu)"></div>
       <div class="n" style="color:${unshared.length?'var(--shu)':'var(--ink)'}">${unshared.length}</div>
-      <div class="l">CA未共有</div>
-      <div class="d" style="color:var(--shu)">${unshared.length?'共有が必要':'—'}</div></div>
+      <div class="l">CA未共有</div></div>
     <div class="kpi ${empty.length?'alert':''}"><div class="strip" style="background:var(--warn)"></div>
       <div class="n" style="color:${empty.length?'var(--warn)':'var(--ink)'}">${empty.length}</div>
       <div class="l">応募ゼロ</div></div>
-  </div>
+  </div>`;
 
-  <div class="tabs mb-m">
-    <button class="${tab==='fill'?'on':''}" data-a="ra-tab" data-v="fill">充足状況</button>
-    <button class="${tab==='share'?'on':''}" data-a="ra-tab" data-v="share">CAへの共有${unshared.length?`<span class="tab-badge">${unshared.length}</span>`:''}</button>
-    <button class="${tab==='ca'?'on':''}" data-a="ra-tab" data-v="ca">CA別の送客</button>
-    <button class="${tab==='fb'?'on':''}" data-a="ra-tab" data-v="fb">企業の反応</button>
-    <button class="${tab==='kanri'?'on':''}" data-a="ra-tab" data-v="kanri">管理くん連携</button>
-  </div>
-
-  ${tab==='fill' ? raFillHtml(stats) : tab==='share' ? raShareHtml(stats)
-    : tab==='ca' ? raCaHtml(mine) : tab==='kanri' ? raKanriHtml(mine) : raFbHtml(mine)}
-
+  if(page==='topic') return kpis + raTopicHtml(me);
+  if(page==='share') return raShareHtml(stats);
+  if(page==='ca')    return raCaHtml(mine);
+  if(page==='fb')    return raFbHtml(mine);
+  if(page==='kanri') return raKanriHtml(mine);
+  return kpis + raFillHtml(stats) + `
   <div class="note info mt-m">
     RAは<b>企業側</b>、CAは<b>求職者側</b>を担当します。両者は同じ案件（application）を
     別の視点から見ているため、片方の更新がもう片方に即座に反映されます。
   </div>`;
 }
-
 /* 充足状況 */
 function raFillHtml(stats){
   return `
@@ -4970,9 +5027,7 @@ function screenPanelHtml(co){
   <div class="panel mb-m">
     <div class="ph">
       <div class="title-m">応募条件（スクリーニング）</div>
-      <button class="btn sm ${open?'g':'s'}" data-a="screen-edit" data-v="${co.id}">
-        ${open ? '閉じる' : '条件を編集'}
-      </button>
+      ${alwaysOpen ? '' : `<button class="btn sm ${open?'g':'s'}" data-a="screen-edit" data-v="${co.id}">${open ? '閉じる' : '条件を編集'}</button>`}
     </div>
     <div class="pb">
       <div class="scr-set">
@@ -5043,52 +5098,9 @@ function screenPanelHtml(co){
   </div>`;
 }
 
-function clientHtml(){
-  const id = state.clientSel || defaultClientId();
-  const co = coOf(id);
-  const apps = appsForCompany(id);
-  const x = companyStats(id);
+/* 応募候補者の一覧。企業ポータルのページ分割にあわせて切り出した（v2.7） */
+function clientListHtml(co, apps){
   return `
-  <div class="ca-head">
-    <div>
-      <h1 class="title-xl">企業ポータル</h1>
-      <p class="sub mt-s">自社に応募した候補者のみ表示されます。他社の求職者や、応募していない求職者は閲覧できません。</p>
-    </div>
-    <div class="toolbar">
-      <select class="input" style="width:auto;min-width:220px" id="client-sel" data-model="clientSel">
-        ${COMPANIES.map(c=>`<option value="${c.id}" ${c.id===id?'selected':''}>${esc(c.name)}</option>`).join('')}
-      </select>
-    </div>
-  </div>
-
-  <div class="note warn mb-m">
-    <b>個人情報の取扱い</b><br>
-    ここに表示される情報は、求職者本人が「この企業への応募」に同意した範囲に限定されます。
-    同意が確認できない候補者は氏名・連絡先がマスクされます（本番仕様）。
-  </div>
-
-  <div class="kpis k7">
-    <div class="kpi"><div class="strip" style="background:var(--sumi)"></div>
-      <div class="n">${apps.length}</div><div class="l">応募者</div></div>
-    <div class="kpi ${apps.filter(a=>a.superLike&&consentOf(a)).length?'alert':''}">
-      <div class="strip" style="background:#E8C36A"></div>
-      <div class="n" style="color:#B8860B">${apps.filter(a=>a.superLike&&consentOf(a)).length}</div>
-      <div class="l">★ 第一志望</div>
-      <div class="d" style="color:#B8860B">本人が強く志望</div></div>
-    <div class="kpi"><div class="strip" style="background:var(--warn)"></div>
-      <div class="n">${apps.filter(a=>a.stage===2).length}</div><div class="l">日程調整中</div></div>
-    <div class="kpi"><div class="strip" style="background:var(--info)"></div>
-      <div class="n">${apps.filter(a=>a.stage===3).length}</div><div class="l">面接済み</div></div>
-    <div class="kpi"><div class="strip" style="background:var(--ok)"></div>
-      <div class="n">${x.won}</div><div class="l">内定</div></div>
-    <div class="kpi"><div class="strip" style="background:var(--brand)"></div>
-      <div class="n">${x.open}</div><div class="l">求人枠</div></div>
-    <div class="kpi"><div class="strip" style="background:var(--ok)"></div>
-      <div class="n">${x.fill}<span style="font-size:12px">%</span></div><div class="l">充足率</div></div>
-  </div>
-
-  ${screenPanelHtml(co)}
-
   <div class="panel">
     <div class="ph"><div class="title-m">応募候補者</div>
       <div class="sub" style="font-size:11.5px">評価を入力すると、担当CA・RAに即時共有されます</div></div>
@@ -5129,7 +5141,50 @@ function clientHtml(){
   </div>`;
 }
 
+/* 企業ポータル。応募候補者と応募条件をページに分けた（v2.7） */
+function clientPageHtml(page){
+  const id = state.clientSel || defaultClientId();
+  const co = coOf(id);
+  const apps = appsForCompany(id);
+  const x = companyStats(id);
+  const supers = apps.filter(a=>a.superLike&&consentOf(a)).length;
 
+  if(page==='screen') return `
+  <div class="note warn mb-m">
+    ここで設定した<b>必須条件</b>を満たさない求職者には、この求人がそもそも提示されません。
+    受けても通らない求人に応募が集まる状態をなくすための設定です。
+  </div>
+  ${screenPanelHtml(co, true)}`;
+
+  return `
+  <div class="note warn mb-m">
+    <b>個人情報の取扱い</b><br>
+    ここに表示される情報は、求職者本人が「この企業への応募」に同意した範囲に限定されます。
+    同意が確認できない候補者は氏名・連絡先がマスクされます（本番仕様）。
+  </div>
+
+  <div class="kpis k7 mb-m">
+    <div class="kpi"><div class="strip" style="background:var(--sumi)"></div>
+      <div class="n">${apps.length}</div><div class="l">応募者</div></div>
+    <div class="kpi ${supers?'alert':''}">
+      <div class="strip" style="background:#E8C36A"></div>
+      <div class="n" style="color:#B8860B">${supers}</div>
+      <div class="l">★ 第一志望</div>
+      <div class="d" style="color:#B8860B">本人が強く志望</div></div>
+    <div class="kpi"><div class="strip" style="background:var(--warn)"></div>
+      <div class="n">${apps.filter(a=>a.stage===2).length}</div><div class="l">日程調整中</div></div>
+    <div class="kpi"><div class="strip" style="background:var(--info)"></div>
+      <div class="n">${apps.filter(a=>a.stage===3).length}</div><div class="l">面接済み</div></div>
+    <div class="kpi"><div class="strip" style="background:var(--ok)"></div>
+      <div class="n">${x.won}</div><div class="l">内定</div></div>
+    <div class="kpi"><div class="strip" style="background:var(--brand)"></div>
+      <div class="n">${x.open}</div><div class="l">求人枠</div></div>
+    <div class="kpi"><div class="strip" style="background:var(--ok)"></div>
+      <div class="n">${x.fill}<span style="font-size:12px">%</span></div><div class="l">充足率</div></div>
+  </div>
+
+  ${clientListHtml(co, apps)}`;
+}
 /* ============================================================================
    v1.2 — CA底上げ（段階2：行動の標準化）
    DESIGN_NOTES：「トップCAの行動ログをテンプレート化し、下位CAに差分を示す」
@@ -5312,11 +5367,136 @@ const ROLES = [
   {k:'client', l:'企業',     desc:'企業ポータル（自社応募者のみ）'},
   {k:'exec',   l:'経営',     desc:'社長・経営レイヤー'}
 ];
+/* ============================================================================
+   v2.7 — 管理画面のシェル（ダークなサイドバー ＋ 明るいコンテンツ）
+
+   ロール切替は上部バーに残したまま、各ロールの中身をサイドバーのメニューで
+   ページに割る。1画面に縦積みしていた内容が分かれるので、商談中に
+   「今どこの話をしているか」が相手に伝わるようになる。
+============================================================================ */
+const ADM_MENU = {
+  ca:[
+    {k:'home',  i:'▤', l:'ダッシュボード', t:'CA管理コンソール'},
+    {k:'cands', i:'☰', l:'求職者一覧',     t:'求職者一覧'},
+    {k:'sales', i:'◫', l:'売上達成率',     t:'売上達成率'},
+    {k:'roi',   i:'◐', l:'導入効果',       t:'導入効果シミュレーション', tag:'営業'}
+  ],
+  ra:[
+    {k:'topic', i:'!',  l:'今日のトピック', t:'今日のトピック'},
+    {k:'fill',  i:'▤',  l:'充足状況',      t:'充足状況'},
+    {k:'share', i:'⇄',  l:'CAへの共有',    t:'CAへの共有'},
+    {k:'ca',    i:'☰',  l:'CA別の送客',    t:'CA別の送客'},
+    {k:'fb',    i:'◎',  l:'企業の反応',    t:'企業の反応'},
+    {k:'kanri', i:'⟳',  l:'管理くん連携',  t:'管理くん連携', tag:'連携'}
+  ],
+  client:[
+    {k:'cands',  i:'☰', l:'応募候補者', t:'応募候補者'},
+    {k:'screen', i:'▤', l:'応募条件',   t:'応募条件（スクリーニング）'}
+  ],
+  exec:[
+    {k:'home', i:'▤', l:'ダッシュボード', t:'経営ダッシュボード'},
+    {k:'prod', i:'◫', l:'CA別の生産性',  t:'CA別の生産性のばらつき'}
+  ]
+};
+/* いま開いているページ。ロールごとに別々に覚えておく */
+function admPage(){
+  const m = ADM_MENU[state.mode] || [];
+  const cur = (state.admPage||{})[state.mode];
+  return m.some(x=>x.k===cur) ? cur : (m[0]||{}).k;
+}
+function admBadge(k){
+  if(state.mode==='ca'){
+    if(k==='home')  return totalUnread() || null;
+    if(k==='cands') return allCandidates().filter(c=>alertsFor(c).some(a=>a.lv==='danger')).length || null;
+  }
+  if(state.mode==='ra'){
+    const me = state.raSel || RA_LIST[0].id;
+    if(k==='topic') return raTopics(me).length || null;
+    if(k==='share'){
+      const mine = COMPANIES.filter(c=>raOf(c.id)===me).map(c=>companyStats(c.id));
+      return mine.filter(x=>x.applied < 2 && !raSharedTo(x.co.id).length).length || null;
+    }
+  }
+  return null;
+}
+
+function admShellHtml(){
+  const menu = ADM_MENU[state.mode] || [];
+  const page = admPage();
+  const cur  = menu.find(x=>x.k===page) || menu[0] || {t:''};
+  const who  = ADM_WHO[state.mode] || {};
+  return `
+  <div class="stage ca">
+    <div class="adm">
+      <aside class="adm-side">
+        <div class="as-user">
+          ${personAvatar(who.name||'—', 56)}
+          <div class="au-n">${esc(who.name||'')}</div>
+          <div class="au-r">${esc(who.role||'')}</div>
+        </div>
+        <div class="as-lab">Navigation</div>
+        <nav class="as-nav">
+          ${menu.map(m=>{
+            const b = admBadge(m.k);
+            return `
+            <button class="as-i ${m.k===page?'on':''}" data-a="adm-page" data-v="${m.k}">
+              <span class="ai">${m.i}</span>
+              <span class="al">${esc(m.l)}</span>
+              ${b ? `<span class="ab">${b}</span>` : m.tag ? `<span class="ab tag">${esc(m.tag)}</span>` : ''}
+            </button>`;
+          }).join('')}
+        </nav>
+        <div class="as-foot">
+          <div class="af-k">デモの操作</div>
+          <button class="as-i sm" data-a="demo-data"><span class="ai">⚡</span><span class="al">商談用データを入れる</span></button>
+          <button class="as-i sm" data-a="tour"><span class="ai">▶</span><span class="al">ガイドを見る</span></button>
+        </div>
+      </aside>
+      <div class="adm-main">
+        <div class="adm-top">
+          <div class="at-t">${esc(cur.t||'')}</div>
+          <div class="at-r">${ADM_TOP[state.mode] ? ADM_TOP[state.mode]() : ''}</div>
+        </div>
+        <div class="wrap">${admBodyHtml(page)}</div>
+      </div>
+    </div>
+  </div>`;
+}
+/* サイドバーに出す「いま誰として見ているか」 */
+const ADM_WHO = {
+  ca:{name:'佐藤 由美',   role:'キャリアアドバイザー'},
+  ra:{name:'岡田 剛',     role:'リクルーティングアドバイザー'},
+  client:{name:'採用担当', role:'企業ポータル'},
+  exec:{name:'経営',      role:'社長 / 経営レイヤー'}
+};
+/* 上部バーの右側。ロールごとに必要なものだけ置く */
+const ADM_TOP = {
+  ca: ()=>`
+    <button class="icon-btn" data-a="add-log">＋ 面接ログを登録</button>
+    <button class="icon-btn" data-a="mode" data-v="seeker">求職者アプリを見る →</button>`,
+  ra: ()=>`<div class="toolbar">${RA_LIST.map(r=>`
+      <button class="ftab ${r.id===(state.raSel||RA_LIST[0].id)?'on':''}" data-a="ra-sel" data-v="${r.id}">${esc(r.name)}</button>`).join('')}</div>`,
+  client: ()=>{
+    const id = state.clientSel || defaultClientId();
+    return `<select class="input" style="width:auto;min-width:220px" id="client-sel" data-model="clientSel">
+      ${COMPANIES.map(c=>`<option value="${c.id}" ${c.id===id?'selected':''}>${esc(c.name)}</option>`).join('')}
+    </select>`;
+  },
+  exec: ()=>`<span class="sub">社長 / 経営レイヤー</span>`
+};
+
+function admBodyHtml(page){
+  if(state.mode==='ca')     return caPageHtml(page);
+  if(state.mode==='ra')     return raPageHtml(page);
+  if(state.mode==='client') return clientPageHtml(page);
+  return execPageHtml(page);
+}
+
 function stageHtml(){
-  if(state.mode==='exec')   return `<div class="stage ca"><div class="wrap">${execHtml()}</div></div>`;
-  if(state.mode==='ra')     return `<div class="stage ca"><div class="wrap">${raHtml()}</div></div>`;
-  if(state.mode==='client') return `<div class="stage ca"><div class="wrap">${clientHtml()}</div></div>`;
-  if(state.mode==='ca') return `<div class="stage ca"><div class="wrap">${caHtml()}</div></div>`;
+  if(state.mode==='exec' || state.mode==='ra' || state.mode==='client' || state.mode==='ca')
+    return admShellHtml();
+
+
   return seekerView()==='desktop' ? seekerDesktopHtml() : seekerPhoneHtml();
 }
 function seekerPhoneHtml(){
@@ -6171,49 +6351,44 @@ function raSharedPanelHtml(){
   </div>`;
 }
 
-function caHtml(){
+/* CAコンソール。サイドバーのメニューでページに割る（v2.7） */
+function caPageHtml(page){
   const all = allCandidates();
   const counts = {applying:0, scheduling:0, interviewed:0, offer:0};
   all.forEach(c=>counts[c.st]++);
   const needAction = all.filter(c=>alertsFor(c).some(a=>a.lv==='danger'||a.lv==='warn')).length;
   const r = roiCalc();
 
-  return `
-  <div class="ca-head">
-    <div>
-      <h1 class="title-xl">CA管理コンソール</h1>
-      <p class="sub mt-s">担当求職者の進捗と、AIが検知した要対応事項を1画面で把握します。</p>
-      <div class="log-stats mt-s" style="margin-bottom:0">
-        <span>蓄積された面接ログ <b>${realLogCount()}</b>件</span>
-        <span>うち求職者本人の投稿 <b>${myLogCount()}</b>件</span>
-        <span>応募（本人同意済み）<b>${consentedList().length}</b>社</span>
+  if(page==='cands') return `
+  <div class="panel">
+    <div class="ph">
+      <div class="toolbar">
+        <div class="segmented">
+          <button class="${state.caTab==='list'?'on':''}" data-a="ca-tab" data-v="list">リスト</button>
+          <button class="${state.caTab==='kanban'?'on':''}" data-a="ca-tab" data-v="kanban">パイプライン</button>
+        </div>
+        ${['all'].concat(Object.keys(STATUS_META)).map(k=>{
+          const l = k==='all' ? '全て' : STATUS_META[k].l;
+          const n = k==='all' ? all.length : counts[k];
+          return `<button class="ftab ${state.caFilter===k?'on':''}" data-a="ca-filter" data-v="${k}">${l} ${n}</button>`;
+        }).join('')}
       </div>
+      <div class="search"><span class="si">🔍</span><input id="ca-q" type="text" placeholder="氏名で検索" value="${esc(state.caQuery)}" data-model="caQuery"></div>
     </div>
-    <div class="row" style="gap:8px">
-      <button class="icon-btn" data-a="add-log">＋ 面接ログを登録</button>
-      <button class="icon-btn" data-a="mode" data-v="seeker">求職者アプリを見る →</button>
+    <div class="pb" id="ca-listhost" style="padding:0">
+      ${state.caTab==='list' ? caListHtml() : '<div style="padding:16px">'+caKanbanHtml()+'</div>'}
     </div>
   </div>
 
-  <div class="kpis">
-    <div class="kpi"><div class="strip" style="background:var(--brand)"></div>
-      <div class="n">${all.length}</div><div class="l">担当求職者</div>
-      <div class="d" style="color:var(--ok)">▲ AI導入前想定 ${Math.round(all.length/1.6)}名</div></div>
-    ${Object.keys(STATUS_META).map(k=>`
-      <div class="kpi"><div class="strip" style="background:${STATUS_META[k].c}"></div>
-        <div class="n" style="color:${STATUS_META[k].c}">${counts[k]}</div>
-        <div class="l">${STATUS_META[k].l}</div>
-        <div class="d" style="color:var(--faint)">全体の ${Math.round(counts[k]/all.length*100)}%</div>
-      </div>`).join('')}
-    <div class="kpi alert"><div class="strip" style="background:var(--warn)"></div>
-      <div class="n" style="color:var(--warn)">${needAction}</div><div class="l">要対応</div>
-      <div class="d" style="color:var(--warn)">未読DM ${totalUnread()}件を含む</div></div>
-  </div>
+  <div class="note gray mt-m">
+    ※ このコンソールは営業提案用のデモです。氏名・進捗・面接ログはすべて架空のダミーデータです。
+  </div>`;
 
-  ${raSharedPanelHtml()}
-
+  if(page==='sales') return `
   ${salesPanelHtml()}
-  ${coachPanelHtml()}
+  ${coachPanelHtml()}`;
+
+  if(page==='roi') return `
   <div class="panel mb-m">
     <div class="ph">
       <div><div class="title-m">導入効果シミュレーション</div><div class="sub" style="font-size:11.5px">貴社の数値を入れて、その場で投資対効果を確認できます</div></div>
@@ -6239,6 +6414,29 @@ function caHtml(){
       </div>
       <div class="note gray mt-m">試算はスライダーの前提値に基づく概算です。実際の効果は運用体制・求職者属性により変動します。契約時に貴社の実データで再計算します。</div>
     </div>
+  </div>`;
+
+  /* ダッシュボード */
+  return `
+  <div class="log-stats mb-m">
+    <span>蓄積された面接ログ <b>${realLogCount()}</b>件</span>
+    <span>うち求職者本人の投稿 <b>${myLogCount()}</b>件</span>
+    <span>応募（本人同意済み）<b>${consentedList().length}</b>社</span>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="strip" style="background:var(--brand)"></div>
+      <div class="n">${all.length}</div><div class="l">担当求職者</div>
+      <div class="d" style="color:var(--ok)">▲ AI導入前想定 ${Math.round(all.length/1.6)}名</div></div>
+    ${Object.keys(STATUS_META).map(k=>`
+      <div class="kpi"><div class="strip" style="background:${STATUS_META[k].c}"></div>
+        <div class="n" style="color:${STATUS_META[k].c}">${counts[k]}</div>
+        <div class="l">${STATUS_META[k].l}</div>
+        <div class="d" style="color:var(--faint)">全体の ${Math.round(counts[k]/all.length*100)}%</div>
+      </div>`).join('')}
+    <div class="kpi alert"><div class="strip" style="background:var(--warn)"></div>
+      <div class="n" style="color:var(--warn)">${needAction}</div><div class="l">要対応</div>
+      <div class="d" style="color:var(--warn)">未読DM ${totalUnread()}件を含む</div></div>
   </div>
 
   <div class="panel mb-m">
@@ -6262,31 +6460,8 @@ function caHtml(){
     </div>
   </div>
 
-  <div class="panel">
-    <div class="ph">
-      <div class="toolbar">
-        <div class="segmented">
-          <button class="${state.caTab==='list'?'on':''}" data-a="ca-tab" data-v="list">リスト</button>
-          <button class="${state.caTab==='kanban'?'on':''}" data-a="ca-tab" data-v="kanban">パイプライン</button>
-        </div>
-        ${['all'].concat(Object.keys(STATUS_META)).map(k=>{
-          const l = k==='all' ? '全て' : STATUS_META[k].l;
-          const n = k==='all' ? all.length : counts[k];
-          return `<button class="ftab ${state.caFilter===k?'on':''}" data-a="ca-filter" data-v="${k}">${l} ${n}</button>`;
-        }).join('')}
-      </div>
-      <div class="search"><span class="si">🔍</span><input id="ca-q" type="text" placeholder="氏名で検索" value="${esc(state.caQuery)}" data-model="caQuery"></div>
-    </div>
-    <div class="pb" id="ca-listhost" style="padding:0">
-      ${state.caTab==='list' ? caListHtml() : '<div style="padding:16px">'+caKanbanHtml()+'</div>'}
-    </div>
-  </div>
-
-  <div class="note gray mt-m">
-    ※ このコンソールは営業提案用のデモです。氏名・進捗・面接ログはすべて架空のダミーデータです。
-  </div>`;
+  ${raSharedPanelHtml()}`;
 }
-
 function roiSlider(key, lab, min, max, step, unit){
   const v = state.roi[key];
   const disp = step<1 ? v.toFixed(1) : nfmt(v);
@@ -7512,6 +7687,8 @@ function bindApp(){
       case 'ca-send':     caSendCompanies(v); break;
       case 'ca-unsend':   caUnsend(el.dataset.cand, v); break;
       case 'ra-tab':      state.raTab = v; render(); break;
+      /* v2.7 管理画面のサイドバー */
+      case 'adm-page':    state.admPage[state.mode] = v; render(); scrollTop(); break;
       case 'ra-share':    raShare(v); break;
 
       /* v2.5 今日のトピック */
