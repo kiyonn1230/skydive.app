@@ -1484,7 +1484,7 @@ b.ok{color:#3F6B4F;} b.warn{color:#8A6B2F;} b.bad{color:#A83A2C;}
 @media(max-width:900px){.dt-shell{grid-template-columns:minmax(0,1fr);}}
 
 /* ---------- サイドナビ ---------- */
-.dt-side{position:sticky;top:78px;border:1px solid var(--ink);background:var(--surface);}
+.dt-side{position:sticky;top:78px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);overflow:hidden;box-shadow:0 6px 22px rgba(34,31,85,.07);}
 @media(max-width:900px){.dt-side{position:static;}}
 .ds-user{display:flex;gap:11px;align-items:center;padding:15px 14px;border-bottom:1px solid var(--ink);}
 .ds-nm{font-weight:800;font-size:13.5px;letter-spacing:.04em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -1508,7 +1508,7 @@ b.ok{color:#3F6B4F;} b.warn{color:#8A6B2F;} b.bad{color:#A83A2C;}
 .ds-v{font-size:11.5px;color:var(--ink2);line-height:1.85;}
 
 /* ---------- 本体 ---------- */
-.dt-main{border:1px solid var(--ink);background:var(--surface);padding:32px 40px 40px;min-height:70vh;}
+.dt-main{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);padding:32px 40px 40px;min-height:70vh;box-shadow:0 8px 30px rgba(34,31,85,.07);}
 @media(max-width:700px){.dt-main{padding:22px 18px 30px;}}
 .dt-main .pad{padding:0;}
 .dt-main .botnav{display:none;}
@@ -2082,6 +2082,109 @@ tr.warn-row td{background:var(--warn-bg);}
 
 
 /* ============================================================
+   v2.8 — 起動画面（マチアプの起動画面と同じ作り）
+   白いパネルで囲わず、背景を全面に使う。1枚あたり見出し1行＋補足1行。
+============================================================ */
+.intro{
+  min-height:min(76vh, 620px);display:flex;flex-direction:column;
+  padding:8px 24px 26px;text-align:center;
+}
+.intro-stage{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0;touch-action:pan-y;user-select:none;cursor:grab;padding:16px 0 4px;
+}
+.intro-stage:active{cursor:grabbing;}
+.intro-vis{
+  height:212px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:30px;width:100%;
+}
+.intro-t{
+  font-family:var(--font-display);font-weight:700;font-synthesis-weight:none;
+  font-size:31px;line-height:1.35;letter-spacing:.02em;color:var(--sumi);margin:0;
+}
+.intro-s{font-size:13.5px;color:var(--ink2);margin:11px 0 0;line-height:1.8;}
+
+.intro-dots{display:flex;gap:8px;justify-content:center;margin:26px 0 22px;}
+.intro-dots button{
+  width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;
+  background:rgba(34,31,85,.20);transition:width .18s ease, background .18s ease;
+}
+.intro-dots button.on{width:24px;border-radius:4px;background:var(--shu);}
+
+.intro-cta .btn.p{
+  box-shadow:0 10px 24px rgba(108,111,232,.36);
+  font-size:15px;padding:17px 26px;letter-spacing:.06em;
+}
+.intro-min{font-size:11.5px;color:var(--muted);margin-top:11px;}
+.intro-note{
+  font-size:10px;color:var(--faint);line-height:1.75;margin-top:22px;
+  max-width:340px;margin-left:auto;margin-right:auto;
+}
+
+/* --- 1枚目：カードを重ねる --- */
+.iv-deck{position:relative;width:150px;height:196px;}
+.iv-card{
+  position:absolute;inset:0;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 14px 34px rgba(34,31,85,.24);
+}
+.iv-card.d0{transform:rotate(-2deg);z-index:3;}
+.iv-card.d1{transform:rotate(6deg) translate(14px,-8px) scale(.97);z-index:2;opacity:.85;}
+.iv-card.d2{transform:rotate(13deg) translate(26px,-15px) scale(.94);z-index:1;opacity:.6;}
+.iv-card .ivc-i{
+  font-family:var(--font-display);font-size:56px;color:rgba(255,255,255,.34);line-height:1;
+}
+.iv-card .ivc-n{
+  position:absolute;left:14px;right:14px;bottom:13px;
+  font-size:10.5px;font-weight:700;color:#fff;text-align:left;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.iv-card .ivc-r{
+  position:absolute;left:14px;top:13px;
+  font-family:var(--font-display);font-weight:700;font-synthesis-weight:none;
+  font-size:15px;color:#fff;letter-spacing:.04em;
+}
+.iv-like{
+  position:absolute;right:-20px;bottom:-16px;z-index:4;
+  width:46px;height:46px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:#22C08A;box-shadow:0 8px 20px rgba(34,31,85,.22);
+}
+
+/* --- 2枚目：スコアの内訳 --- */
+.iv-score{
+  width:216px;background:#fff;border-radius:20px;padding:18px 18px 16px;
+  box-shadow:0 14px 34px rgba(34,31,85,.18);text-align:left;
+}
+.ivs-h{display:flex;align-items:baseline;gap:9px;margin-bottom:14px;}
+.ivs-h b{font-family:var(--font-display);font-size:28px;color:var(--shu);line-height:1;font-weight:700;font-synthesis-weight:none;}
+.ivs-h span{font-size:11px;color:var(--muted);font-weight:700;}
+.ivs-r{display:flex;align-items:center;gap:9px;margin-bottom:9px;}
+.ivs-r:last-child{margin-bottom:0;}
+.ivs-r .l{width:62px;flex:none;font-size:10px;color:var(--muted);font-weight:700;}
+.ivs-r .t{flex:1;height:6px;border-radius:3px;background:var(--brand-100);overflow:hidden;}
+.ivs-r .t i{display:block;height:100%;border-radius:3px;background:var(--shu);}
+
+/* --- 3枚目：カレンダー --- */
+.iv-cal{
+  width:206px;background:#fff;border-radius:20px;padding:16px 16px 18px;
+  box-shadow:0 14px 34px rgba(34,31,85,.18);
+}
+.iv-cal .ivc-h{
+  font-family:var(--font-display);font-size:17px;font-weight:700;font-synthesis-weight:none;
+  color:var(--sumi);margin-bottom:11px;letter-spacing:.04em;
+}
+.iv-cal .ivc-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.iv-cal .ivc-g span{
+  aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+  font-size:9.5px;font-weight:600;color:var(--faint);border-radius:6px;
+}
+.iv-cal .ivc-g span.on{color:#fff;font-weight:800;}
+.iv-cal .ivc-g span.a{background:var(--shu);}
+.iv-cal .ivc-g span.b{background:#22C08A;}
+.iv-cal .ivc-g span.c{background:var(--azure-lt);}
+
+/* ============================================================
    v2.7 — 管理画面のシェル（ダークなサイドバー ＋ 明るいコンテンツ）
 ============================================================ */
 /* .stage.ca の余白はシェルが自前で持つので打ち消す。サイドバーを画面端まで届かせる */
@@ -2182,7 +2285,7 @@ tr.warn-row td{background:var(--warn-bg);}
    （このリポジトリには含まない）。
 ============================================================================ */
 
-const APP_VERSION = '2.7';
+const APP_VERSION = '2.8';
 const STORAGE_KEY = 'swipeca_demo_v2';
 
 /* ---------- マスタ ---------- */
@@ -2655,6 +2758,7 @@ function blankState(){
     screenEdit:null,                // 企業ポータルで条件を編集中の企業ID
     screenOff:false,                // デモ用：条件による除外を一時的に切る
     admPage:{},                     // v2.7 管理画面のロールごとに開いているページ
+    intro:0,                        // v2.8 起動画面のカルーセル位置
 
     menu:false,                     // アプリバーの「⋯」メニュー
     whyId:null,                     // 「なぜ合うのか」シートで開いている企業
@@ -5013,9 +5117,9 @@ function defaultClientId(){
    企業がここで条件を設定すると、条件を満たさない求職者にはこの求人が提示されなくなる。
    「必須」に入れた項目だけが足切りに使われ、「歓迎」は提示したうえで適合状況を出す。
 --------------------------------------------------------------------------- */
-function screenPanelHtml(co){
+function screenPanelHtml(co, alwaysOpen){
   const s = screenOf(co.id);
-  const open = state.screenEdit === co.id;
+  const open = !!alwaysOpen || state.screenEdit === co.id;
   const mustLabel = k => ({edu:'学歴', age:'年齢', gender:'性別', job:'転職回数'})[k] || k;
   const set = [];
   if(s.edu)             set.push({k:'edu',    l:'学歴',     v:eduLabel(s.edu)});
@@ -5533,31 +5637,80 @@ function seekerHtml(){
 /* ============================================================================
    求職者：ランディング
 ============================================================================ */
-function landingHtml(){
-  const feats = [
-    ['🧭','AIがあなたの型を診断','性格・志向性から強みと伸びしろを言語化し、面接での見せ方まで提示します'],
-    ['👆','スワイプで企業を選ぶ','提携企業の中から相性順に提示。なぜ合うのかを毎回スコアの内訳で説明します'],
-    ['📋','先輩の面接ログを見る','同じ企業を受けた候補者の質問内容・意図・通過理由が読めます'],
-    ['✎','自分の面接も記録して残す','あなたが受けた面接の内容も、匿名で次の人に渡せます'],
-    ['🗓️','担当CAとの面談を自分で予約','空き枠から選ぶだけ。日程調整の往復メールは不要です']
-  ];
-  return `
-  <div class="pad">
-    <div class="landing">
-      <div class="hero">👆</div>
-      <h1>自分のペースで<br>就活を進められる</h1>
-      <p class="lead">AIがあなたの強みを分析し、提携企業の中から相性の高い求人だけを提示します。面接対策も日程調整も、アプリの中で完結します。</p>
-      <div class="feat-list">
-        ${feats.map(f=>`<div class="feat"><div class="ico">${f[0]}</div><div><div class="t">${esc(f[1])}</div><div class="d">${esc(f[2])}</div></div></div>`).join('')}
-      </div>
-      <button class="btn p block" data-a="go-profile">はじめる（所要2分）</button>
-      <div class="note gray mt-m" style="text-align:left;">
-        これは人材紹介会社向けの営業提案用デモです。表示される企業・候補者・面接ログはすべて架空のダミーデータで、外部への通信は行いません。
-      </div>
+/* ============================================================================
+   v2.8 — 起動画面
+   マチアプの起動画面と同じ作りにする。白いパネルで囲わず、背景を全面に使い、
+   コピーは1枚あたり見出し1行＋補足1行に絞る。ビジュアルは外から画像を持ってこず、
+   実際の画面（カード・スコア内訳・カレンダー）の縮小版をその場で組み立てる。
+============================================================================ */
+const INTRO = [
+  {t:'スワイプで選ぶ',   s:'合わない求人は出てきません'},
+  {t:'合う理由がわかる', s:'マッチ度の内訳を毎回出します'},
+  {t:'面談までアプリで', s:'日程調整のメールは要りません'}
+];
+
+/* 1枚目：企業カードを3枚、少しずつ傾けて重ねる */
+function introDeckHtml(){
+  const co = COMPANIES.slice(0,3);
+  return `<div class="iv-deck">
+    ${co.map((c,i)=>`
+      <div class="iv-card d${i}" style="background:${cardTone(c)}">
+        <span class="ivc-i">${esc(c.ini||c.name.slice(0,1))}</span>
+        ${i===0?`<span class="ivc-r">SS</span><span class="ivc-n">${esc(c.name)}</span>`:''}
+      </div>`).reverse().join('')}
+    <span class="iv-like">♥</span>
+  </div>`;
+}
+/* 2枚目：スコアの内訳バー */
+function introScoreHtml(){
+  const rows = [['性格の相性',88],['業界・職種',74],['条件',62],['社風',81]];
+  return `<div class="iv-score">
+    <div class="ivs-h"><b>SS</b><span>マッチ 91</span></div>
+    ${rows.map(r=>`
+      <div class="ivs-r">
+        <span class="l">${esc(r[0])}</span>
+        <span class="t"><i style="width:${r[1]}%"></i></span>
+      </div>`).join('')}
+  </div>`;
+}
+/* 3枚目：カレンダー */
+function introCalHtml(){
+  const marks = {9:'a', 14:'b', 18:'a', 23:'c'};
+  return `<div class="iv-cal">
+    <div class="ivc-h">9月</div>
+    <div class="ivc-g">
+      ${Array.from({length:30},(_,n)=>{
+        const d=n+1, m=marks[d];
+        return `<span class="${m?'on '+m:''}">${d}</span>`;
+      }).join('')}
     </div>
   </div>`;
 }
+const INTRO_VIS = [introDeckHtml, introScoreHtml, introCalHtml];
 
+function landingHtml(){
+  const i = clamp(state.intro||0, 0, INTRO.length-1);
+  const s = INTRO[i];
+  return `
+  <div class="intro">
+    <div class="intro-stage" id="intro-stage">
+      <div class="intro-vis">${INTRO_VIS[i]()}</div>
+      <h1 class="intro-t">${esc(s.t)}</h1>
+      <p class="intro-s">${esc(s.s)}</p>
+    </div>
+
+    <div class="intro-dots">
+      ${INTRO.map((_,n)=>`<button class="${n===i?'on':''}" data-a="intro" data-v="${n}" aria-label="${n+1}枚目"></button>`).join('')}
+    </div>
+
+    <div class="intro-cta">
+      <button class="btn p block" data-a="go-profile">はじめる</button>
+      <div class="intro-min">2分で終わります</div>
+    </div>
+
+    <div class="intro-note">営業提案用のデモです。企業・候補者・面接ログはすべて架空のダミーデータで、外部への通信は行いません。</div>
+  </div>`;
+}
 /* ============================================================================
    求職者：プロフィール入力
 ============================================================================ */
@@ -7533,7 +7686,26 @@ function resetAll(){
    EVENT BINDING（委譲・1回だけ登録）
 ============================================================================ */
 let bound = false;
+/* v2.8 起動画面のカルーセルを横スワイプで送る。
+   カード本体のスワイプ処理とは別物なので、ここで独立に持つ。 */
+function bindIntroSwipe(){
+  const st = document.getElementById('intro-stage');
+  if(!st || st.dataset.bound) return;
+  st.dataset.bound = '1';
+  let x0 = null;
+  st.addEventListener('pointerdown', e=>{ x0 = e.clientX; });
+  st.addEventListener('pointerup', e=>{
+    if(x0 === null) return;
+    const dx = e.clientX - x0; x0 = null;
+    if(Math.abs(dx) < 44) return;
+    const n = clamp((state.intro||0) + (dx < 0 ? 1 : -1), 0, INTRO.length-1);
+    if(n !== state.intro){ state.intro = n; render(); }
+  });
+  st.addEventListener('pointercancel', ()=>{ x0 = null; });
+}
+
 function bindApp(){
+  bindIntroSwipe();
   if(bound) return;
   bound = true;
 
@@ -7689,6 +7861,8 @@ function bindApp(){
       case 'ra-tab':      state.raTab = v; render(); break;
       /* v2.7 管理画面のサイドバー */
       case 'adm-page':    state.admPage[state.mode] = v; render(); scrollTop(); break;
+      /* v2.8 起動画面のカルーセル */
+      case 'intro':       state.intro = parseInt(v,10)||0; render(); break;
       case 'ra-share':    raShare(v); break;
 
       /* v2.5 今日のトピック */
